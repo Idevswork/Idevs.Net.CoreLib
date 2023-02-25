@@ -26,7 +26,7 @@
 
   <ItemGroup Label="Packaging">
     <Content Include="build\Idevs.Net.CoreLib.targets" PackagePath="build\Idevs.Net.CoreLib.targets" />
-    <Content Include="Content\**\*.css">
+    <Content Include="Content\**\*">
       <Pack>true</Pack>
       <PackagePath>contentFiles\any\any\Content</PackagePath>
       <PackageCopyToOutput>true</PackageCopyToOutput>
