@@ -1,11 +1,11 @@
 namespace Idevs.ComponentModel;
 
-public class FormColumnFullWidthAttribute : FormColumnWidthAttribute
+public class FullColumnWidthAttribute : ColumnWidthAttribute
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="FormColumnFullWidthAttribute"/> class.
     /// </summary>
-    public FormColumnFullWidthAttribute()
+    public FullColumnWidthAttribute()
         : base("col-12")
     {
     }

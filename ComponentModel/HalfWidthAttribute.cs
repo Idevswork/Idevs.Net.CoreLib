@@ -1,11 +1,11 @@
 namespace Idevs.ComponentModel;
 
-public class FormColumnHalfWidthAttribute : FormColumnWidthAttribute
+public class HalfColumnWidthAttribute : ColumnWidthAttribute
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="FormColumnHalfWidthAttribute"/> class.
     /// </summary>
-    public FormColumnHalfWidthAttribute()
+    public HalfColumnWidthAttribute()
         : base("col-6")
     {
     }

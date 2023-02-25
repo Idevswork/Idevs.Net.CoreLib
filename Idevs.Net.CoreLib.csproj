@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>Idevs.Net.CoreLib</PackageId>
-    <Version>0.0.1</Version>
+    <Version>0.0.2</Version>
     <Authors>Sarawut Phaekuntod</Authors>
     <Product>Idevs.Net.CoreLib</Product>
     <PackageTags>Idevs; CoreLib; Serenity; Extended</PackageTags>
@@ -22,15 +22,6 @@
 
   <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="\"/>
-  </ItemGroup>
-
-  <ItemGroup Label="Packaging">
-    <Content Include="build\Idevs.Net.CoreLib.targets" PackagePath="build\Idevs.Net.CoreLib.targets" />
-    <Content Include="Content\**\*">
-      <Pack>true</Pack>
-      <PackagePath>contentFiles\any\any\Content</PackagePath>
-      <PackageCopyToOutput>true</PackageCopyToOutput>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>

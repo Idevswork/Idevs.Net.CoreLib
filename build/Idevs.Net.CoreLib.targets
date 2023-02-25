@@ -1,15 +1,16 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <ItemGroup>
-        <ContentFiles Include="$(MSBuildThisFileDirectory)..\contentFiles\any\any\Content\css\*.css" />
-    </ItemGroup>
+    <Target Name="NpmInstall" BeforeTargets="BeforeBuild" Condition="!Exists('node_modules\@idevs\corelib\index.d.ts')">
+        <Message Text="Installing NPM packages..." Importance="high" />
+        <Exec Command="npm install @idevs/corelib" />
+    </Target>
+
     <Target Name="CopyContentToProject" BeforeTargets="Build">
         <Message Text="Copying content to project" />
+        <ItemGroup>
+            <ContentFiles Include="$(ProjectDir)node_modules\@idevs\corelib\css\*.css" />
+        </ItemGroup>
         <Copy SourceFiles="@(ContentFiles)" 
-            DestinationFolder="$(ProjectDir0)wwwroot\lib\Idevs\Content\"
+            DestinationFolder="$(ProjectDir)wwwroot\lib\Idevs\Content\"
         />
     </Target>
-    <Target Name="NpmInstall" BeforeTargets="BeforeBuild" Condition="!Exists('node_modules\@idevs\corelib\index.d.ts')">
-    <Message Text="Installing NPM packages..." Importance="high" />
-    <Exec Command="npm install @idevs/corelib" />
-  </Target>
 </Project>

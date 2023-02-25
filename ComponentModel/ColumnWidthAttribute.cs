@@ -1,16 +1,14 @@
-using System;
-using System.Linq;
 using Serenity.ComponentModel;
 
 namespace Idevs.ComponentModel;
 
-public class FormColumnWidthAttribute : FormWidthAttribute
+public class ColumnWidthAttribute : FormWidthAttribute
 {
-    public FormColumnWidthAttribute()
+    public ColumnWidthAttribute()
     {
     }
 
-    public FormColumnWidthAttribute(string cssClass) : base(cssClass)
+    public ColumnWidthAttribute(string cssClass) : base(cssClass)
     {
     }
 
