@@ -1,0 +1,30 @@
+.idevs-tool-dropdown-button .button-outer {
+  display: flex;
+  align-items: center;
+}
+.idevs-tool-dropdown-button:hover {
+  background-color: unset !important;
+}
+.idevs-tool-dropdown-button .disabled {
+  cursor: default !important;
+}
+.idevs-tool-dropdown-button .dropdown-toggle .caret {
+  margin-left: 6px;
+  margin-right: 4px;
+}
+.idevs-tool-dropdown-button .dropdown-menu {
+  border-color: var(--s-tool-border);
+  background-color: white;
+  top: 6px !important;
+  left: -11px !important;
+}
+.idevs-tool-dropdown-button .dropdown-menu li a {
+  color: #333;
+}
+.idevs-tool-dropdown-button .dropdown-menu li.disabled a,
+.idevs-tool-dropdown-button .dropdown-menu li.disabled i {
+  color: gray !important;
+}
+.dropdown-inner > i {
+  font-size: var(--s-tool-icon-size);
+}

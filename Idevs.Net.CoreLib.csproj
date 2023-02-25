@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageId>Idevs.Net.CoreLib</PackageId>
+    <Version>0.0.1</Version>
+    <Authors>Sarawut Phaekuntod</Authors>
+    <Product>Idevs.Net.CoreLib</Product>
+    <PackageTags>Idevs; CoreLib; Serenity; Extended</PackageTags>
+    <Description>
+      A library to extended Serenity Framework.
+    </Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+
+  <ItemGroup Label="Packaging">
+    <Content Include="build\Idevs.Net.CoreLib.targets" PackagePath="build\Idevs.Net.CoreLib.targets" />
+    <Content Include="Content\**\*.css">
+      <Pack>true</Pack>
+      <PackagePath>contentFiles\any\any\Content</PackagePath>
+      <PackageCopyToOutput>true</PackageCopyToOutput>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.100.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.12" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.2" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.0" />
+    <PackageReference Include="PugPDF.Core" Version="1.0.9" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.9.4">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Serenity.Assets" Version="6.5.1" />
+    <PackageReference Include="Serenity.Scripts" Version="6.5.1" />
+    <PackageReference Include="Serenity.Net.Web" Version="6.5.1" />
+    <PackageReference Include="Serenity.Extensions" Version="6.5.1" />
+  </ItemGroup>
+</Project>
