@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.0.4 (2023-02-28)
+
+## Changed
+- Update ZeroDisplayFormatterAttribute options
+- Update CheckboxFormatterAttribute options
+
+
 ## 0.0.3 (2023-02-28)
 
 ## Added
@@ -9,6 +16,7 @@
 ## Changed
 
 - Removed ZeroToBlankFormatterAttribute
+
 
 ## 0.0.2 (2023-02-26)
 
