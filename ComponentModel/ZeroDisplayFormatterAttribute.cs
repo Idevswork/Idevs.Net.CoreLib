@@ -10,17 +10,9 @@ public partial class ZeroDisplayFormatterAttribute : CustomFormatterAttribute
     {
     }
 
-    private string displayText = "";
     public string DisplayText
     {
-        get => displayText;
-        set
-        {
-            if (value != displayText)
-            {
-                displayText = value;
-                SetOption("displayText", value);
-            }
-        }
+        get => GetOption<string>("displayText") ?? string.Empty;
+        set => SetOption("displayText", value);
     }
 }
