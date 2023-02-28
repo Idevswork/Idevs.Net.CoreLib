@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.0.6 (2023-02-28)
+
+## Changed
+
+Type to change arguments
+
+
 ## 0.0.5 (2023-02-28)
 
 ## Fixed

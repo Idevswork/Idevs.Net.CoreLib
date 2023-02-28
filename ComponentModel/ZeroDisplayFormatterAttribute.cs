@@ -6,8 +6,9 @@ public partial class ZeroDisplayFormatterAttribute : CustomFormatterAttribute
 {
     public const string Key = "Idevs.ZeroDisplayFormatter";
 
-    public ZeroDisplayFormatterAttribute(string displayValue = "") : base(Key)
+    public ZeroDisplayFormatterAttribute() : base(Key)
     {
-        SetOption("displayValue", displayValue);
     }
+
+    public string DisplayText { get; set; } = "";
 }
