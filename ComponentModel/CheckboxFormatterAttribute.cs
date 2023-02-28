@@ -10,73 +10,33 @@ public partial class CheckboxFormatterAttribute : CustomFormatterAttribute
     {
     }
 
-    private string cssClass = "";
     public string CssClass
     {
-        get => cssClass;
-        set
-        {
-            if (value != cssClass)
-            {
-                cssClass = value;
-                SetOption("cssClass", value);
-            }
-        }
+        get => GetOption<string>("cssClass") ?? string.Empty;
+        set => SetOption("cssClass", value);
     }
 
-    private string trueText = "";
     public string TrueText
     {
-        get => trueText;
-        set
-        {
-            if (value != trueText)
-            {
-                trueText = value;
-                SetOption("trueText", value);
-            }
-        }
+        get => GetOption<string>("trueText") ?? string.Empty;
+        set => SetOption("trueText", value);
     }
 
-    private string falseText = "";
     public string FalseText
     {
-        get => falseText;
-        set
-        {
-            if (value != falseText)
-            {
-                falseText = value;
-                SetOption("falseText", value);
-            }
-        }
+        get => GetOption<string>("falseText") ?? string.Empty;
+        set => SetOption("falseText", value);
     }
 
-    private string trueValueIcon = "";
     public string TrueValueIcon
     {
-        get => trueValueIcon;
-        set
-        {
-            if (value != trueValueIcon)
-            {
-                trueValueIcon = value;
-                SetOption("trueValueIcon", value);
-            }
-        }
+        get => GetOption<string>("trueValueIcon") ?? string.Empty;
+        set => SetOption("trueValueIcon", value);
     }
 
-    private string falseValueIcon = "";
     public string FalseValueIcon
     {
-        get => falseValueIcon;
-        set
-        {
-            if (value != falseValueIcon)
-            {
-                falseValueIcon = value;
-                SetOption("falseValueIcon", value);
-            }
-        }
+        get => GetOption<string>("falseValueIcon") ?? string.Empty;
+        set => SetOption("falseValueIcon", value);
     }
 }

@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.0.9 (2023-03-01)
+
+### Added
+
+- Repositories/RepositoryBase
+- Helpers/ViewRenderer
+- Models/PdfContentResult
+- Services/ExcelExporter
+- Services/PdfExporter
+- Services/StaticServiceProvider
+
+### Changes
+
+- Extensions/TextLocalizerExtensions -> change name and add more methods
+
+### Fixed
+
+Fixed ZeroDisplayFormatterAttribute and CheckboxFormatterAttribute
+
+
+
 ## 0.0.8 (2023-02-28)
 
 ### Fixed
