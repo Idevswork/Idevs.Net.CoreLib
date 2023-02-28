@@ -1,10 +1,19 @@
 # Changelog
 
+## 0.0.7 (2023-02-28)
+
+### Changed
+
+Update arguments assignments for formatter attributes
+
+
+
 ## 0.0.6 (2023-02-28)
 
-## Changed
+### Changed
 
-Type to change arguments
+Try to change arguments assignment
+
 
 
 ## 0.0.5 (2023-02-28)
