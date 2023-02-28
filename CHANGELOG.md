@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.5 (2023-02-28)
+
+## Fixed
+
+- Fixed ZeroDisplayFormatterAttribute's arguments
+- Fixed CheckboxFormatterAttribute's attributes
+
+
+
 ## 0.0.4 (2023-02-28)
 
 ## Changed

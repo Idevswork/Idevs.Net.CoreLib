@@ -14,5 +14,10 @@ public partial class CheckboxFormatterAttribute : CustomFormatterAttribute
         string falseValueIcon = ""
     ) : base(Key)
     {
+        SetOption("cssClass", cssClass);
+        SetOption("trueValue", trueValue);
+        SetOption("falseValue", falseValue);
+        SetOption("trueValueIcon", trueValueIcon);
+        SetOption("falseValueIcon", falseValueIcon);
     }
 }
