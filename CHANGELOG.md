@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.11 (2023-03-03)
+
+### Fixed
+
+Fixed project files to copy scripts
+
+
+
 ## 0.0.10 (2023-03-03)
 
 ### Changes
