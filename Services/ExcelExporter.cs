@@ -149,7 +149,6 @@ public class ExcelExporter : IExcelExporter
 
         if (rows.Count > 0)
         {
-            // var dataRange = worksheet.Range(2, 1, endRow, endCol);
             worksheet.Cell(2, 1).InsertData(dataList);
             var range = worksheet.Range(1, 1, endRow, colCount);
 

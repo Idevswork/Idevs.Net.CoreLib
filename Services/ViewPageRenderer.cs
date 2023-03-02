@@ -10,18 +10,18 @@ using Microsoft.AspNetCore.Routing;
 
 namespace Idevs.Helpers;
 
-public interface IViewRenderer
+public interface IViewPageRenderer
 {
     Task<string> RenderViewAsync<TModel>(string viewName, TModel model);
 }
 
-public class ViewRenderer : IViewRenderer
+public class ViewPageRenderer : IViewPageRenderer
 {
     private IRazorViewEngine ViewEngine { get; }
     private ITempDataProvider TempDataProvider { get; }
     private IServiceProvider ServiceProvider { get; }
 
-    public ViewRenderer(IRazorViewEngine viewEngine, ITempDataProvider tempDataProvider, IServiceProvider serviceProvider)
+    public ViewPageRenderer(IRazorViewEngine viewEngine, ITempDataProvider tempDataProvider, IServiceProvider serviceProvider)
     {
         ViewEngine = viewEngine;
         TempDataProvider = tempDataProvider;
