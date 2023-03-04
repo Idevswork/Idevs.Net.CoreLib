@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.14 (2023-03-04)
+
+### Changed
+
+Revert to previous targets and let user install dependencies himself
+
+
+
 ## 0.0.13 (2023-03-04)
 
 ### Changed

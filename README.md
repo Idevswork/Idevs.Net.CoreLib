@@ -15,6 +15,12 @@ To install this module, run the following command in your computer terminal:
   dotnet add package Idevs.Net.CoreLib
 ```
 
+Install dependencies nuget packages
+
+```console
+  dotnet add package PugPDF.Core
+```
+
 Add the following code to /Initialization/Startup.cs
 
 ```console
