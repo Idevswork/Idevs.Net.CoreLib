@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.16 (2023-03-05)
+
+## Fixed
+
+Fixed targets to install dependencies packages
+
+
+
 ## 0.0.15 (2023-03-04)
 
 ## Fixed

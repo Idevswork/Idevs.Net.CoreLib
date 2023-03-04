@@ -4,11 +4,6 @@
         <Exec Command="npm install @idevs/corelib" />
     </Target>
 
-    <Target Name="DependencyInstall" BeforeTargets="BeforeBuild" Condition="!Exists('')">
-        <Message Text="Installing dependencies..." Importance="high" />
-        <Exec Command="dotnet add package PugPDF.Core" />
-    </Target>
-
     <Target Name="CopyContentToProject" BeforeTargets="Build">
         <Message Text="Copying content to project" />
         <ItemGroup>
