@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.13 (2023-03-04)
+
+### Changed
+
+Update targets to install needed dependencie packages
+
+
+
 ## 0.0.12 (2023-03-04)
 
 ### Added
