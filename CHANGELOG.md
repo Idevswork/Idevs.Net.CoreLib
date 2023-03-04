@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.0.12 (2023-03-04)
+
+### Added
+
+- ComponentModes/DisplayNumberFormatAttribute
+
+### Changed
+
+Rename folder ComponentModel to ComponentModels
+
+
+
 ## 0.0.11 (2023-03-03)
 
 ### Fixed
