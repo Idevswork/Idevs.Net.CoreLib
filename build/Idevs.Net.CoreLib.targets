@@ -1,5 +1,5 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <Target Name="NpmInstall" BeforeTargets="BeforeBuild" Condition="!Exists('node_modules\@idevs\corelib\index.d.ts')">
+    <Target Name="NpmInstall" BeforeTargets="BeforeBuild" Condition="!Exists('node_modules\@idevs\corelib\dist\index.d.ts')">
         <Message Text="Installing NPM packages..." Importance="high" />
         <Exec Command="npm install @idevs/corelib" />
     </Target>

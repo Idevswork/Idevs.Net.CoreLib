@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.15 (2023-03-04)
+
+## Fixed
+
+Fixed targets for install npm packages idevs.corlib
+
+
+
 ## 0.0.14 (2023-03-04)
 
 ### Changed
