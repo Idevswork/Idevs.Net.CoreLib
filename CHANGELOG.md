@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.17 (2023-03-09)
+
+### Added
+
+- CheckboxButtonEditorAttribute
+
+
+
 ## 0.0.16 (2023-03-05)
 
 ## Fixed
