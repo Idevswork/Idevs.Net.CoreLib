@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.18 (2023-03-13)
+
+### Added
+
+- LookupFormatterAttribute
+
+
+
 ## 0.0.17 (2023-03-09)
 
 ### Added
