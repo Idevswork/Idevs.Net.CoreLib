@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.19 (2023-03-22)
+
+### Updated
+
+- IdevsExportRequest added Filters property
+
+
+
 ## 0.0.18 (2023-03-13)
 
 ### Added
