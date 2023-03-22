@@ -5,12 +5,17 @@ namespace Idevs.Models;
 public interface IIdevsExportRequest
 {
     string ViewName { get; set; }
-    object? Filters { get; set; }
+    string? CompanyName { get; set; }
+    string? ReportName { get; set; }
+    string? SelectionRange { get; set; }
+    string? Logo { get; set; }
 }
 
 public class IdevsExportRequest : ListRequest, IIdevsExportRequest
 {
     public string ViewName { get; set; } = "";
-    private object? filters;
-    public object? Filters { get => filters; set => filters = value; }
+    public string? CompanyName { get; set; }
+    public string? ReportName { get; set; }
+    public string? SelectionRange { get; set; }
+    public string? Logo { get; set; }
 }
