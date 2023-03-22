@@ -29,8 +29,8 @@ Add the following code to /Initialization/Startup.cs
     --- ommited ---
 
     services.AddScoped<IViewPageRenderer, ViewPageRenderer>();
-    services.AddScoped<IPdfExporter, PdfExporter>();
-    services.AddScoped<IExcelExporter, ExcelExporter>();
+    services.AddScoped<IIdevsPdfExporter, IdevsPdfExporter>();
+    services.AddScoped<IIdevsExcelExporter, IdevsExcelExporter>();
   }
 
   --- ommited ---

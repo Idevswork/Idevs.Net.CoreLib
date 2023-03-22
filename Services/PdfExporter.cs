@@ -2,12 +2,12 @@ using PugPdf.Core;
 
 namespace Idevs.Services;
 
-public interface IPdfExporter
+public interface IIdevsPdfExporter
 {
     byte[] Export(string html, PdfPrintOptions? options = null);
 }
 
-public class PdfExporter : IPdfExporter
+public class IdevsPdfExporter : IIdevsPdfExporter
 {
     public byte[] Export(string html, PdfPrintOptions? options = null)
     {

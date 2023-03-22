@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.20 (2023-03-22)
+
+### Changes
+
+- Add interface IIdevsExcelExporter inherited from IExcelExporter
+- Rename ExcelExporter to IdevsExcelExporter
+- Rename PdfExporter to IdevsPdfExporter
+
+
+
 ## 0.0.19 (2023-03-22)
 
 ### Updated

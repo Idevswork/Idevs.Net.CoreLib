@@ -6,11 +6,15 @@ using Serenity.Reporting;
 
 namespace Idevs.Services;
 
-public class ExcelExporter : IExcelExporter
+public interface IIdevsExcelExporter : IExcelExporter
+{
+}
+
+public class IdevsExcelExporter : IIdevsExcelExporter
 {
     private readonly IServiceProvider serviceProvider;
 
-    public ExcelExporter(IServiceProvider serviceProvider)
+    public IdevsExcelExporter(IServiceProvider serviceProvider)
     {
         this.serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
     }
