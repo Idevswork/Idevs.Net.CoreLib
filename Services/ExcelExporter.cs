@@ -8,15 +8,17 @@ namespace Idevs.Services;
 
 public interface IIdevsExcelExporter : IExcelExporter
 {
+    byte[] Generate(IReadOnlyList<ReportColumn> columns, ICollection rows, string sheetName = "Page1",
+        string tableName = "Table1");
 }
 
 public class IdevsExcelExporter : IIdevsExcelExporter
 {
-    private readonly IServiceProvider serviceProvider;
+    private readonly IServiceProvider _serviceProvider;
 
     public IdevsExcelExporter(IServiceProvider serviceProvider)
     {
-        this.serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+        this._serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
     }
 
     public byte[] Export(IEnumerable data, IEnumerable<ReportColumn> columns)
@@ -27,30 +29,28 @@ public class IdevsExcelExporter : IIdevsExcelExporter
 
     public byte[] Export(IEnumerable data, Type columnsType)
     {
-        var report = new TabularDataReport(data, columnsType, serviceProvider);
+        var report = new TabularDataReport(data, columnsType, _serviceProvider);
         return Render(report);
     }
 
     public byte[] Export(IEnumerable data, Type columnsType, IEnumerable<string> exportColumns)
     {
-        var report = new TabularDataReport(data, columnsType, exportColumns, serviceProvider);
+        var report = new TabularDataReport(data, columnsType, exportColumns, _serviceProvider);
         return Render(report);
     }
 
-    private static byte[] Render(IDataOnlyReport report)
+    private byte[] Render(IDataOnlyReport report)
     {
         var columns = report.GetColumnList();
 
-        var data = new List<object>();
         var input = report.GetData();
         var list = (input as IEnumerable) ?? new List<object> { input };
-        foreach (var item in list)
-            data.Add(item);
+        var data = list.Cast<object?>().ToList();
 
         return Generate(columns, data);
     }
 
-    private static byte[] Generate(IReadOnlyList<ReportColumn> columns, ICollection rows, string sheetName = "Page1",
+    public byte[] Generate(IReadOnlyList<ReportColumn> columns, ICollection rows, string sheetName = "Page1",
         string tableName = "Table1")
     {
         Field[]? fields = null;

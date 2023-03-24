@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.22 (2023-03-24)
+
+### Changes
+
+- change ExcelExport function Generate from private to public to allow changes column title
+
+
+
 ## 0.0.21 (2023-03-23)
 
 ### Changes
