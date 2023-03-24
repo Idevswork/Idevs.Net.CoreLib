@@ -74,6 +74,7 @@ public class IdevsExcelExporter : IIdevsExcelExporter
             }
         }
         var endRow = rows.Count + startRow + 1;
+        startRow++;
 
         for (var col = 0; col < columns.Count; col++)
         {

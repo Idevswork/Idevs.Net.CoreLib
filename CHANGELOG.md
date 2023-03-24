@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.24 (2023-03-24)
+
+### Fixed
+
+- Fixed starting row
+
+
+
 ## 0.0.23 (2023-03-24)
 
 ### Added
