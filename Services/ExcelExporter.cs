@@ -6,10 +6,13 @@ using Serenity.Reporting;
 
 namespace Idevs.Services;
 
-public interface IIdevsExcelExporter : IExcelExporter
+public interface IIdevsExcelExporter
 {
-    byte[] Generate(IReadOnlyList<ReportColumn> columns, ICollection rows, string sheetName = "Page1",
-        string tableName = "Table1");
+    byte[] Export(IEnumerable data, IEnumerable<ReportColumn> columns, IEnumerable<string>? headers = null);
+    byte[] Export(IEnumerable data, Type columnsType, IEnumerable<string>? headers = null);
+    byte[] Export(IEnumerable data, Type columnsType, IEnumerable<string> exportColumns, IEnumerable<string>? headers = null);
+    byte[] Generate(IReadOnlyList<ReportColumn> columns, ICollection rows, IEnumerable<string>? headers = null,
+        string sheetName = "Page1", string tableName = "Table1");
 }
 
 public class IdevsExcelExporter : IIdevsExcelExporter
@@ -18,28 +21,28 @@ public class IdevsExcelExporter : IIdevsExcelExporter
 
     public IdevsExcelExporter(IServiceProvider serviceProvider)
     {
-        this._serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+        _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
     }
 
-    public byte[] Export(IEnumerable data, IEnumerable<ReportColumn> columns)
+    public byte[] Export(IEnumerable data, IEnumerable<ReportColumn> columns, IEnumerable<string>? headers = null)
     {
         var report = new TabularDataReport(data, columns);
-        return Render(report);
+        return Render(report, headers);
     }
 
-    public byte[] Export(IEnumerable data, Type columnsType)
+    public byte[] Export(IEnumerable data, Type columnsType, IEnumerable<string>? headers = null)
     {
         var report = new TabularDataReport(data, columnsType, _serviceProvider);
-        return Render(report);
+        return Render(report, headers);
     }
 
-    public byte[] Export(IEnumerable data, Type columnsType, IEnumerable<string> exportColumns)
+    public byte[] Export(IEnumerable data, Type columnsType, IEnumerable<string> exportColumns, IEnumerable<string>? headers = null)
     {
         var report = new TabularDataReport(data, columnsType, exportColumns, _serviceProvider);
-        return Render(report);
+        return Render(report, headers);
     }
 
-    private byte[] Render(IDataOnlyReport report)
+    private byte[] Render(IDataOnlyReport report, IEnumerable<string>? headers = null)
     {
         var columns = report.GetColumnList();
 
@@ -47,11 +50,11 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         var list = (input as IEnumerable) ?? new List<object> { input };
         var data = list.Cast<object?>().ToList();
 
-        return Generate(columns, data);
+        return Generate(columns, data, headers);
     }
 
-    public byte[] Generate(IReadOnlyList<ReportColumn> columns, ICollection rows, string sheetName = "Page1",
-        string tableName = "Table1")
+    public byte[] Generate(IReadOnlyList<ReportColumn> columns, ICollection rows, IEnumerable<string>? headers = null,
+        string sheetName = "Sheet1", string tableName = "Table1")
     {
         Field[]? fields = null;
         TypeAccessor? accessor = null;
@@ -59,13 +62,22 @@ public class IdevsExcelExporter : IIdevsExcelExporter
 
         var colCount = columns.Count;
 
-        var endRow = rows.Count + 1;
-
         using var workbook = new XLWorkbook();
-        var worksheet = workbook.Worksheets.Add("Page1");
+        var worksheet = workbook.Worksheets.Add(sheetName);
+        var startRow = 0;
+        if (headers is not null)
+        {
+            startRow = 1;
+            foreach (var header in headers)
+            {
+                worksheet.Cell(startRow++, 1).Value = header;
+            }
+        }
+        var endRow = rows.Count + startRow + 1;
+
         for (var col = 0; col < columns.Count; col++)
         {
-            worksheet.Cell(1, col + 1).Value = columns[col].Title ?? columns[col].Name;
+            worksheet.Cell(startRow, col + 1).Value = columns[col].Title ?? columns[col].Name;
         }
 
         var dataList = new List<object[]>();
@@ -153,8 +165,8 @@ public class IdevsExcelExporter : IIdevsExcelExporter
 
         if (rows.Count > 0)
         {
-            worksheet.Cell(2, 1).InsertData(dataList);
-            var range = worksheet.Range(1, 1, endRow, colCount);
+            worksheet.Cell(startRow + 1, 1).InsertData(dataList);
+            var range = worksheet.Range(startRow, 1, endRow, colCount);
 
             // create the actual table
             var table = range.CreateTable();

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.23 (2023-03-24)
+
+### Added
+
+- Added ExcelExport parameter to add headers
+
+
+
 ## 0.0.22 (2023-03-24)
 
 ### Changes
