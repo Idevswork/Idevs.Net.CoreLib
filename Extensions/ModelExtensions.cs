@@ -9,6 +9,9 @@ public static class ModelExtensions
 
         foreach (var property in model.GetType().GetProperties().Where(x => x.PropertyType == typeof(string)))
         {
+            if (property.Name == "Table")
+                continue;
+
             var value = (property.GetValue(model) as string)?.Trim();
             property.SetValue(model, string.IsNullOrEmpty(value) && emptyStringToNull ? null : value);
         }
