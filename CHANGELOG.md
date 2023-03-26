@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.25 (2023-03-26)
+
+### Added
+
+- ModelExtensions TrimModel
+
+
+
 ## 0.0.24 (2023-03-24)
 
 ### Fixed
