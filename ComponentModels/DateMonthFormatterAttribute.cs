@@ -2,12 +2,11 @@ using Serenity.ComponentModel;
 
 namespace Idevs.ComponentModel;
 
-public partial class DateMonthEditorAttribute : CustomEditorAttribute
+public partial class DateMonthFormatterAttribute : CustomFormatterAttribute
 {
-    public const string Key = "DateMonthEditor";
+    public const string Key = "Idevs.DateMonthFormatter";
 
-    public DateMonthEditorAttribute()
-        : base(Key)
+    public DateMonthFormatterAttribute() : base(Key)
     {
     }
 
