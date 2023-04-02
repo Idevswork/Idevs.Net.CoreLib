@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.29 (2023-04-03)
+
+### Added
+
+- Add ResponseModel
+
+
+
 ## 0.0.28 (2023-04-02)
 
 ### Added
