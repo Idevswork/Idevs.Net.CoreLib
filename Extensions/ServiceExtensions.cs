@@ -6,7 +6,7 @@ namespace Idevs.Extensions;
 
 public static class ServicExtensions
 {
-    public static void RegisterServices(this IServiceCollection services, IConfiguration configuration, string[]? namespaces = null)
+    public static void RegisterServices(this IServiceCollection services, IConfiguration configuration)
     {
         // Define types that need matching
         Type scopedRegistration = typeof(ScopedRegistrationAttribute);
@@ -15,14 +15,6 @@ public static class ServicExtensions
 
         var types = AppDomain.CurrentDomain.GetAssemblies()
         .SelectMany(s => s.GetTypes())
-        .Where(p =>
-        {
-            if (namespaces is null)
-            {
-                return true;
-            }
-            return namespaces.Any(name => p.Namespace.StartsWith(name));
-        })
         .Where(p => p.IsDefined(scopedRegistration, false) || p.IsDefined(transientRegistration, false) || p.IsDefined(singletonRegistration, false) && !p.IsInterface)
         .Select(s => new
         {
