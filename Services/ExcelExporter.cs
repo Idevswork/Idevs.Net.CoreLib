@@ -70,6 +70,17 @@ public class IdevsExcelExporter : IIdevsExcelExporter
             Array.IndexOf(DateTimeTypes, dataType) >= 0)
             return format.Replace('f', '0');
 
+        if (format.StartsWith("n", StringComparison.OrdinalIgnoreCase) &&
+            Array.IndexOf(DateTimeTypes, dataType) >= 0)
+        {
+            if (int.TryParse(format.Replace("n", string.Empty), out var n) == false)
+            {
+                n = 0;
+            }
+
+            return n == 0 ? "#,##0" : "#,##0.".PadRight(n + 6, '0');
+        }
+
         return format;
     }
 
@@ -184,16 +195,6 @@ public class IdevsExcelExporter : IIdevsExcelExporter
             dataList.Add(data);
         }
 
-        // Apply column format if available
-        for (var i = 1; i <= colCount; i++)
-        {
-            var column = columns[i - 1];
-            if (!string.IsNullOrEmpty(column.Format))
-            {
-                worksheet.Column(i).Style.NumberFormat.Format = FixFormatSpecifier(column.Format, column.DataType);
-            }
-        }
-
         if (rows.Count > 0)
         {
             worksheet.Cell(startRow + 1, 1).InsertData(dataList);
@@ -204,6 +205,16 @@ public class IdevsExcelExporter : IIdevsExcelExporter
 
             // apply style
             table.Theme = XLTableTheme.TableStyleMedium2;
+        }
+
+        // Apply column format if available
+        for (var i = 1; i <= colCount; i++)
+        {
+            var column = columns[i - 1];
+            if (!string.IsNullOrEmpty(column.Format))
+            {
+                worksheet.Column(i).Style.NumberFormat.Format = FixFormatSpecifier(column.Format, column.DataType);
+            }
         }
 
         worksheet.Columns().AdjustToContents();
