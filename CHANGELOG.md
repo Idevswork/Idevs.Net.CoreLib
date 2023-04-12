@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.31 (2023-04-12)
+
+### Added
+
+- Add register service using reflection
+
+
+
 ## 0.0.30 (2023-04-12)
 
 ### Updated
