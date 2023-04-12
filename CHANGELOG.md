@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.33 (2023-04-12)
+
+### Fixed
+
+- Fixed error Excel export with format
+
+
+
 ## 0.0.32 (2023-04-12)
 
 ### Fixed

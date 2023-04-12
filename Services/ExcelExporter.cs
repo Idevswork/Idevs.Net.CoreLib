@@ -184,6 +184,16 @@ public class IdevsExcelExporter : IIdevsExcelExporter
             dataList.Add(data);
         }
 
+        // Apply column format if available
+        for (var i = 1; i <= colCount; i++)
+        {
+            var column = columns[i - 1];
+            if (!string.IsNullOrEmpty(column.Format))
+            {
+                worksheet.Column(i).Style.NumberFormat.Format = FixFormatSpecifier(column.Format, column.DataType);
+            }
+        }
+
         if (rows.Count > 0)
         {
             worksheet.Cell(startRow + 1, 1).InsertData(dataList);
@@ -194,16 +204,6 @@ public class IdevsExcelExporter : IIdevsExcelExporter
 
             // apply style
             table.Theme = XLTableTheme.TableStyleMedium2;
-        }
-
-        // Apply column format if available
-        for (var i = 1; i <= colCount; i++)
-        {
-            var column = columns[i - 1];
-            if (!string.IsNullOrEmpty(column.Format))
-            {
-                worksheet.Column(i).Style.NumberFormat.Format = FixFormatSpecifier(column.Format, column.DataType);
-            }
         }
 
         worksheet.Columns().AdjustToContents();
