@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.30 (2023-04-12)
+
+### Updated
+
+- Update ExcelExporter to display correct format
+
+
+
 ## 0.0.29 (2023-04-03)
 
 ### Added

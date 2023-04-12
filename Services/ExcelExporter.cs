@@ -11,7 +11,7 @@ public interface IIdevsExcelExporter
     byte[] Export(IEnumerable data, IEnumerable<ReportColumn> columns, IEnumerable<string>? headers = null);
     byte[] Export(IEnumerable data, Type columnsType, IEnumerable<string>? headers = null);
     byte[] Export(IEnumerable data, Type columnsType, IEnumerable<string> exportColumns, IEnumerable<string>? headers = null);
-    byte[] Generate(IReadOnlyList<ReportColumn> columns, ICollection rows, IEnumerable<string>? headers = null,
+    byte[] Generate(IReadOnlyList<ReportColumn> columns, IList rows, IEnumerable<string>? headers = null,
         string sheetName = "Page1", string tableName = "Table1");
 }
 
@@ -53,7 +53,27 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         return Generate(columns, data, headers);
     }
 
-    public byte[] Generate(IReadOnlyList<ReportColumn> columns, ICollection rows, IEnumerable<string>? headers = null,
+    private static readonly Type[] DateTimeTypes = new[]
+    {
+        typeof(DateTime),
+        typeof(DateTime?),
+        typeof(TimeSpan),
+        typeof(TimeSpan?)
+    };
+
+    private static string FixFormatSpecifier(string format, Type dataType)
+    {
+        if (string.IsNullOrEmpty(format))
+            return format;
+
+        if (format.Contains('f', StringComparison.Ordinal) &&
+            Array.IndexOf(DateTimeTypes, dataType) >= 0)
+            return format.Replace('f', '0');
+
+        return format;
+    }
+
+    public byte[] Generate(IReadOnlyList<ReportColumn> columns, IList rows, IEnumerable<string>? headers = null,
         string sheetName = "Sheet1", string tableName = "Table1")
     {
         Field[]? fields = null;
@@ -174,6 +194,16 @@ public class IdevsExcelExporter : IIdevsExcelExporter
 
             // apply style
             table.Theme = XLTableTheme.TableStyleMedium2;
+        }
+
+        // Apply column format if available
+        for (var i = 1; i <= colCount; i++)
+        {
+            var column = columns[i - 1];
+            if (!string.IsNullOrEmpty(column.Format))
+            {
+                worksheet.Column(i).Style.NumberFormat.Format = FixFormatSpecifier(column.Format, column.DataType);
+            }
         }
 
         worksheet.Columns().AdjustToContents();
