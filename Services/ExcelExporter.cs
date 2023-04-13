@@ -1,5 +1,6 @@
 using System.Collections;
 using ClosedXML.Excel;
+using ClosedXML.Report;
 using FastMember;
 using Serenity.Data;
 using Serenity.Reporting;
@@ -13,6 +14,7 @@ public interface IIdevsExcelExporter
     byte[] Export(IEnumerable data, Type columnsType, IEnumerable<string> exportColumns, IEnumerable<string>? headers = null);
     byte[] Generate(IReadOnlyList<ReportColumn> columns, IList rows, IEnumerable<string>? headers = null,
         string sheetName = "Page1", string tableName = "Table1");
+    byte[] ExportReport<T>(T data, string templatePath);
 }
 
 public class IdevsExcelExporter : IIdevsExcelExporter
@@ -242,6 +244,18 @@ public class IdevsExcelExporter : IIdevsExcelExporter
 
         var ms = new MemoryStream();
         workbook.SaveAs(ms);
+
+        return ms.ToArray();
+    }
+
+    public byte[] ExportReport<T>(T data, string templatePath)
+    {
+        var template = new XLTemplate(templatePath);
+        template.AddVariable(data);
+        template.Generate();
+
+        var ms = new MemoryStream();
+        template.SaveAs(ms);
 
         return ms.ToArray();
     }

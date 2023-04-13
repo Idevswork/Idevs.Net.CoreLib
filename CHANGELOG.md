@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.36 (2023-04-14)
+
+### Added
+
+- Added export excel report using CloxedXML.Report
+
+
+
 ## 0.0.35 (2023-04-14)
 
 ### Fixed
