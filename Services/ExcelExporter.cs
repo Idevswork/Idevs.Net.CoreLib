@@ -14,7 +14,7 @@ public interface IIdevsExcelExporter
     byte[] Export(IEnumerable data, Type columnsType, IEnumerable<string> exportColumns, IEnumerable<string>? headers = null);
     byte[] Generate(IReadOnlyList<ReportColumn> columns, IList rows, IEnumerable<string>? headers = null,
         string sheetName = "Page1", string tableName = "Table1");
-    byte[] ExportReport<T>(T data, string templatePath);
+    byte[] ExportReport(string templatePath, params object[] data);
 }
 
 public class IdevsExcelExporter : IIdevsExcelExporter
@@ -248,10 +248,13 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         return ms.ToArray();
     }
 
-    public byte[] ExportReport<T>(T data, string templatePath)
+    public byte[] ExportReport(string templatePath, params object[] data)
     {
         var template = new XLTemplate(templatePath);
-        template.AddVariable(data);
+        foreach (var o in data)
+        {
+            template.AddVariable(o);
+        }
         template.Generate();
 
         var ms = new MemoryStream();

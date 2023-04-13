@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.37 (2023-04-14)
+
+## Updates
+
+- Update export excel report arguments
+
+
+
 ## 0.0.36 (2023-04-14)
 
 ### Added
