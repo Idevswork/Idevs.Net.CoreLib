@@ -61,6 +61,20 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         typeof(TimeSpan?)
     };
 
+    private static readonly Type[] NumberTypes = new[]
+    {
+        typeof(short),
+        typeof(short?),
+        typeof(int),
+        typeof(int?),
+        typeof(long),
+        typeof(long?),
+        typeof(float),
+        typeof(float?),
+        typeof(decimal),
+        typeof(decimal?)
+    };
+
     private static string FixFormatSpecifier(string format, Type dataType)
     {
         if (string.IsNullOrEmpty(format))
@@ -70,18 +84,15 @@ public class IdevsExcelExporter : IIdevsExcelExporter
             Array.IndexOf(DateTimeTypes, dataType) >= 0)
             return format.Replace('f', '0');
 
-        if (format.StartsWith("n", StringComparison.OrdinalIgnoreCase) &&
-            Array.IndexOf(DateTimeTypes, dataType) >= 0)
-        {
-            if (int.TryParse(format.Replace("n", string.Empty), out var n) == false)
-            {
-                n = 0;
-            }
+        if (!format.StartsWith("n", StringComparison.OrdinalIgnoreCase) ||
+            Array.IndexOf(NumberTypes, dataType) < 0) return format;
 
-            return n == 0 ? "#,##0" : "#,##0.".PadRight(n + 6, '0');
+        if (int.TryParse(format.ToLower().Replace("n", string.Empty), out var n) == false)
+        {
+            n = 0;
         }
 
-        return format;
+        return n == 0 ? "#,##0" : "#,##0.".PadRight(n + 6, '0');
     }
 
     public byte[] Generate(IReadOnlyList<ReportColumn> columns, IList rows, IEnumerable<string>? headers = null,
@@ -193,6 +204,16 @@ public class IdevsExcelExporter : IIdevsExcelExporter
             }
 
             dataList.Add(data);
+        }
+
+        // Apply column format if available
+        for (var i = 1; i <= colCount; i++)
+        {
+            var column = columns[i - 1];
+            if (!string.IsNullOrEmpty(column.Format))
+            {
+                worksheet.Column(i).Style.NumberFormat.Format = FixFormatSpecifier(column.Format, column.DataType);
+            }
         }
 
         if (rows.Count > 0)

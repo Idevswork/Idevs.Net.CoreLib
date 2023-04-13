@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.35 (2023-04-14)
+
+### Fixed
+
+- Final fix error Excel export with number formatting
+
+
+
 ## 0.0.34 (2023-04-12)
 
 ### Fixed
