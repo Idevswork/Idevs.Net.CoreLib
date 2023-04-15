@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.39 (2023-04-16)
+
+### Updates
+
+- Move excel header to after AdjustToContents
+
+
+
 ## 0.0.38 (2023-04-15)
 
 ### Added

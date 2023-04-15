@@ -108,15 +108,7 @@ public class IdevsExcelExporter : IIdevsExcelExporter
 
         using var workbook = new XLWorkbook();
         var worksheet = workbook.Worksheets.Add(sheetName);
-        var startRow = 0;
-        if (headers is not null)
-        {
-            startRow = 1;
-            foreach (var header in headers)
-            {
-                worksheet.Cell(startRow++, 1).Value = header;
-            }
-        }
+        var startRow = headers is not null ? headers.Count() + 1 : 0;
         var endRow = rows.Count + startRow + 1;
         startRow++;
 
@@ -241,6 +233,15 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         }
 
         worksheet.Columns().AdjustToContents();
+
+        if (headers is not null)
+        {
+            startRow = 1;
+            foreach (var header in headers)
+            {
+                worksheet.Cell(startRow++, 1).Value = header;
+            }
+        }
 
         var ms = new MemoryStream();
         workbook.SaveAs(ms);
