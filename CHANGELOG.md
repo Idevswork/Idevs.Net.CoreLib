@@ -1,8 +1,16 @@
 # Changelog
 
+## 0.0.38 (2023-04-15)
+
+### Added
+
+- Add EnumExtensions.GetDescription
+
+
+
 ## 0.0.37 (2023-04-14)
 
-## Updates
+### Updates
 
 - Update export excel report arguments
 
