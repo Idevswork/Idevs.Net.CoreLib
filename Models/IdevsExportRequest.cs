@@ -9,6 +9,7 @@ public interface IIdevsExportRequest
     string? ReportName { get; set; }
     string? SelectionRange { get; set; }
     string? Logo { get; set; }
+    object? Entity { get; set; }
 }
 
 public class IdevsExportRequest : ListRequest, IIdevsExportRequest
@@ -18,4 +19,5 @@ public class IdevsExportRequest : ListRequest, IIdevsExportRequest
     public string? ReportName { get; set; }
     public string? SelectionRange { get; set; }
     public string? Logo { get; set; }
+    public object? Entity { get; set; }
 }
