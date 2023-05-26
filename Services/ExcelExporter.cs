@@ -245,6 +245,7 @@ public class IdevsExcelExporter : IIdevsExcelExporter
             if (aggregates is not null)
             {
                 var cols = columns.Select(x => x.Name).ToList();
+                var titles = columns.Select(x => x.Title).ToList();
                 foreach (var column in aggregates)
                 {
                     var colIdx = cols.IndexOf(column.ColumnName);
@@ -253,7 +254,7 @@ public class IdevsExcelExporter : IIdevsExcelExporter
                         continue;
                     }
 
-                    worksheet.Cell(endRow + 1, colIdx).Value = $"={column.AggregateType}([{column.ColumnName}])";
+                    worksheet.Cell(endRow + 1, colIdx + 1).Value = $"={column.AggregateType}(Table1[{titles[colIdx]}])";
                 }
             }
         }

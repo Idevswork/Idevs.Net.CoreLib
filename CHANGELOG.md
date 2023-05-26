@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.44 (2023-05-26)
+
+### Fixed
+
+- Fixed error result for aggregate columns
+
+
+
 ## 0.0.43 (2023-05-26)
 
 ### Added
