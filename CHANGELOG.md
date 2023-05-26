@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.41 (2023-05-26)
+
+### Updates
+
+- Add support aggregate column for summary row
+- Remove unnecessary property for ExcelExportRequest
+
+
+
 ## 0.0.40 (2023-05-24)
 
 ### Updates

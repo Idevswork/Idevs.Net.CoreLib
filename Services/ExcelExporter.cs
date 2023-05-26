@@ -2,6 +2,7 @@ using System.Collections;
 using ClosedXML.Excel;
 using ClosedXML.Report;
 using FastMember;
+using Idevs.Models;
 using Serenity.Data;
 using Serenity.Reporting;
 
@@ -9,11 +10,14 @@ namespace Idevs.Services;
 
 public interface IIdevsExcelExporter
 {
-    byte[] Export(IEnumerable data, IEnumerable<ReportColumn> columns, IEnumerable<string>? headers = null);
-    byte[] Export(IEnumerable data, Type columnsType, IEnumerable<string>? headers = null);
-    byte[] Export(IEnumerable data, Type columnsType, IEnumerable<string> exportColumns, IEnumerable<string>? headers = null);
+    byte[] Export(IEnumerable data, IEnumerable<ReportColumn> columns, IEnumerable<string>? headers = null,
+        IEnumerable<AggregateColumn>? aggregates = null);
+    byte[] Export(IEnumerable data, Type columnsType, IEnumerable<string>? headers = null,
+        IEnumerable<AggregateColumn>? aggregates = null);
+    byte[] Export(IEnumerable data, Type columnsType, IEnumerable<string> exportColumns, IEnumerable<string>? headers = null,
+        IEnumerable<AggregateColumn>? aggregates = null);
     byte[] Generate(IReadOnlyList<ReportColumn> columns, IList rows, IEnumerable<string>? headers = null,
-        string sheetName = "Page1", string tableName = "Table1");
+        IEnumerable<AggregateColumn>? aggregates = null, string sheetName = "Page1", string tableName = "Table1");
     byte[] ExportReport(string templatePath, params object[] data);
 }
 
@@ -26,25 +30,29 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
     }
 
-    public byte[] Export(IEnumerable data, IEnumerable<ReportColumn> columns, IEnumerable<string>? headers = null)
+    public byte[] Export(IEnumerable data, IEnumerable<ReportColumn> columns, IEnumerable<string>? headers = null,
+        IEnumerable<AggregateColumn>? aggregates = null)
     {
         var report = new TabularDataReport(data, columns);
-        return Render(report, headers);
+        return Render(report, headers, aggregates);
     }
 
-    public byte[] Export(IEnumerable data, Type columnsType, IEnumerable<string>? headers = null)
+    public byte[] Export(IEnumerable data, Type columnsType, IEnumerable<string>? headers = null,
+        IEnumerable<AggregateColumn>? aggregates = null)
     {
         var report = new TabularDataReport(data, columnsType, _serviceProvider);
-        return Render(report, headers);
+        return Render(report, headers, aggregates);
     }
 
-    public byte[] Export(IEnumerable data, Type columnsType, IEnumerable<string> exportColumns, IEnumerable<string>? headers = null)
+    public byte[] Export(IEnumerable data, Type columnsType, IEnumerable<string> exportColumns,
+        IEnumerable<string>? headers = null, IEnumerable<AggregateColumn>? aggregates = null)
     {
         var report = new TabularDataReport(data, columnsType, exportColumns, _serviceProvider);
-        return Render(report, headers);
+        return Render(report, headers, aggregates);
     }
 
-    private byte[] Render(IDataOnlyReport report, IEnumerable<string>? headers = null)
+    private byte[] Render(IDataOnlyReport report, IEnumerable<string>? headers = null,
+        IEnumerable<AggregateColumn>? aggregates = null)
     {
         var columns = report.GetColumnList();
 
@@ -52,7 +60,7 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         var list = (input as IEnumerable) ?? new List<object> { input };
         var data = list.Cast<object?>().ToList();
 
-        return Generate(columns, data, headers);
+        return Generate(columns, data, headers, aggregates);
     }
 
     private static readonly Type[] DateTimeTypes = new[]
@@ -98,7 +106,7 @@ public class IdevsExcelExporter : IIdevsExcelExporter
     }
 
     public byte[] Generate(IReadOnlyList<ReportColumn> columns, IList rows, IEnumerable<string>? headers = null,
-        string sheetName = "Sheet1", string tableName = "Table1")
+        IEnumerable<AggregateColumn>? aggregates = null, string sheetName = "Sheet1", string tableName = "Table1")
     {
         Field[]? fields = null;
         TypeAccessor? accessor = null;
@@ -200,16 +208,6 @@ public class IdevsExcelExporter : IIdevsExcelExporter
             dataList.Add(data);
         }
 
-        // Apply column format if available
-        for (var i = 1; i <= colCount; i++)
-        {
-            var column = columns[i - 1];
-            if (!string.IsNullOrEmpty(column.Format))
-            {
-                worksheet.Column(i).Style.NumberFormat.Format = FixFormatSpecifier(column.Format, column.DataType);
-            }
-        }
-
         if (rows.Count > 0)
         {
             worksheet.Cell(startRow + 1, 1).InsertData(dataList);
@@ -220,6 +218,22 @@ public class IdevsExcelExporter : IIdevsExcelExporter
 
             // apply style
             table.Theme = XLTableTheme.TableStyleMedium2;
+
+            // Add aggregated columns
+            if (aggregates is not null)
+            {
+                var cols = columns.Select(x => x.Name).ToList();
+                foreach (var column in aggregates)
+                {
+                    var colIdx = cols.IndexOf(column.ColumnName);
+                    if (colIdx < 0)
+                    {
+                        continue;
+                    }
+
+                    worksheet.Cell(endRow + 1, colIdx).Value = $"={column.AggregateType}([{column.ColumnName}])";
+                }
+            }
         }
 
         // Apply column format if available

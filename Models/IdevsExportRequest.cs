@@ -2,6 +2,12 @@ using Serenity.Services;
 
 namespace Idevs.Models;
 
+public struct AggregateColumn
+{
+    public string ColumnName { get; set; }
+    public string AggregateType { get; set; }
+}
+
 public interface IIdevsExportRequest
 {
     string ViewName { get; set; }
@@ -9,7 +15,7 @@ public interface IIdevsExportRequest
     string? ReportName { get; set; }
     string? SelectionRange { get; set; }
     string? Logo { get; set; }
-    object? Entity { get; set; }
+    IEnumerable<AggregateColumn>? AggregateColumns { get; set; }
 }
 
 public class IdevsExportRequest : ListRequest, IIdevsExportRequest
@@ -19,5 +25,5 @@ public class IdevsExportRequest : ListRequest, IIdevsExportRequest
     public string? ReportName { get; set; }
     public string? SelectionRange { get; set; }
     public string? Logo { get; set; }
-    public object? Entity { get; set; }
+    public IEnumerable<AggregateColumn>? AggregateColumns { get; set; }
 }
