@@ -4,13 +4,15 @@ namespace Idevs.Models;
 
 public enum AggregateType
 {
-    AVERAGE = 0,
-    COUNT = 1,
-    SUM = 2
+    LABEL = 0,
+    AVERAGE = 1,
+    COUNT = 2,
+    SUM = 3
 }
 
 public struct AggregateColumn
 {
+    public string Title { get; set; }
     public string ColumnName { get; set; }
     public AggregateType AggregateType { get; set; }
 }

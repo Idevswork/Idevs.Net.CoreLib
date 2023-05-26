@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.46 (2023-05-27)
+
+### Updates
+
+- Add support label for aggregate columns
+- Fixed boundary range table
+
+
+
 ## 0.0.45 (2023-05-26)
 
 ### Changes
