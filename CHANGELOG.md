@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.47 (2023-05-27)
+
+### Updates
+
+- Added entity property to IdevsExportRequest
+
+
+
 ## 0.0.46 (2023-05-27)
 
 ### Updates
