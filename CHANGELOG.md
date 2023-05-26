@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.45 (2023-05-26)
+
+### Changes
+
+- Changes to use total rows approach fo aggregate columns
+
+
+
 ## 0.0.44 (2023-05-26)
 
 ### Fixed

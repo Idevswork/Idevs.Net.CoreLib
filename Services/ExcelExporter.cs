@@ -232,11 +232,20 @@ public class IdevsExcelExporter : IIdevsExcelExporter
 
         if (rows.Count > 0)
         {
+            if (aggregates is not null)
+            {
+                endRow++;
+            }
+
             worksheet.Cell(startRow + 1, 1).InsertData(dataList);
             var range = worksheet.Range(startRow, 1, endRow, colCount);
 
             // create the actual table
             var table = range.CreateTable();
+            if (aggregates is not null)
+            {
+                table.ShowTotalsRow = true;
+            }
 
             // apply style
             table.Theme = XLTableTheme.TableStyleMedium2;
@@ -254,7 +263,20 @@ public class IdevsExcelExporter : IIdevsExcelExporter
                         continue;
                     }
 
-                    worksheet.Cell(endRow + 1, colIdx + 1).Value = $"={column.AggregateType}(Table1[{titles[colIdx]}])";
+                    switch (column.AggregateType)
+                    {
+                        case AggregateType.AVERAGE:
+                            table.Field(titles[colIdx]).TotalsRowFunction = XLTotalsRowFunction.Average;
+                            break;
+
+                        case AggregateType.COUNT:
+                            table.Field(titles[colIdx]).TotalsRowFunction = XLTotalsRowFunction.Count;
+                            break;
+
+                        default:
+                            table.Field(titles[colIdx]).TotalsRowFunction = XLTotalsRowFunction.Sum;
+                            break;
+                    }
                 }
             }
         }
