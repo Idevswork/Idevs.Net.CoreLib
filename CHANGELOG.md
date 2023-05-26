@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.42 (2023-05-26)
+
+### Updates
+
+- Prevent ambiguous call for export with aggregate column
+
+
+
 ## 0.0.41 (2023-05-26)
 
 ### Updates

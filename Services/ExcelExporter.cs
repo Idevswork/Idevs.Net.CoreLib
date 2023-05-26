@@ -10,11 +10,14 @@ namespace Idevs.Services;
 
 public interface IIdevsExcelExporter
 {
-    byte[] Export(IEnumerable data, IEnumerable<ReportColumn> columns, IEnumerable<string>? headers = null,
+    byte[] Export(IEnumerable data, IEnumerable<ReportColumn> columns, IEnumerable<string>? headers = null);
+    byte[] Export(IEnumerable data, Type columnsType, IEnumerable<string>? headers = null);
+    byte[] Export(IEnumerable data, Type columnsType, IEnumerable<string> exportColumns, IEnumerable<string>? headers = null);
+    byte[] ExportWithAggregate(IEnumerable data, IEnumerable<ReportColumn> columns, IEnumerable<string>? headers = null,
         IEnumerable<AggregateColumn>? aggregates = null);
-    byte[] Export(IEnumerable data, Type columnsType, IEnumerable<string>? headers = null,
+    byte[] ExportWithAggregate(IEnumerable data, Type columnsType, IEnumerable<string>? headers = null,
         IEnumerable<AggregateColumn>? aggregates = null);
-    byte[] Export(IEnumerable data, Type columnsType, IEnumerable<string> exportColumns, IEnumerable<string>? headers = null,
+    byte[] ExportWithAggregate(IEnumerable data, Type columnsType, IEnumerable<string> exportColumns, IEnumerable<string>? headers = null,
         IEnumerable<AggregateColumn>? aggregates = null);
     byte[] Generate(IReadOnlyList<ReportColumn> columns, IList rows, IEnumerable<string>? headers = null,
         IEnumerable<AggregateColumn>? aggregates = null, string sheetName = "Page1", string tableName = "Table1");
@@ -30,21 +33,40 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
     }
 
-    public byte[] Export(IEnumerable data, IEnumerable<ReportColumn> columns, IEnumerable<string>? headers = null,
+    public byte[] Export(IEnumerable data, IEnumerable<ReportColumn> columns, IEnumerable<string>? headers = null)
+    {
+        var report = new TabularDataReport(data, columns);
+        return Render(report, headers);
+    }
+
+    public byte[] Export(IEnumerable data, Type columnsType, IEnumerable<string>? headers = null)
+    {
+        var report = new TabularDataReport(data, columnsType, _serviceProvider);
+        return Render(report, headers);
+    }
+
+    public byte[] Export(IEnumerable data, Type columnsType, IEnumerable<string> exportColumns,
+        IEnumerable<string>? headers = null)
+    {
+        var report = new TabularDataReport(data, columnsType, exportColumns, _serviceProvider);
+        return Render(report, headers);
+    }
+
+    public byte[] ExportWithAggregate(IEnumerable data, IEnumerable<ReportColumn> columns, IEnumerable<string>? headers = null,
         IEnumerable<AggregateColumn>? aggregates = null)
     {
         var report = new TabularDataReport(data, columns);
         return Render(report, headers, aggregates);
     }
 
-    public byte[] Export(IEnumerable data, Type columnsType, IEnumerable<string>? headers = null,
+    public byte[] ExportWithAggregate(IEnumerable data, Type columnsType, IEnumerable<string>? headers = null,
         IEnumerable<AggregateColumn>? aggregates = null)
     {
         var report = new TabularDataReport(data, columnsType, _serviceProvider);
         return Render(report, headers, aggregates);
     }
 
-    public byte[] Export(IEnumerable data, Type columnsType, IEnumerable<string> exportColumns,
+    public byte[] ExportWithAggregate(IEnumerable data, Type columnsType, IEnumerable<string> exportColumns,
         IEnumerable<string>? headers = null, IEnumerable<AggregateColumn>? aggregates = null)
     {
         var report = new TabularDataReport(data, columnsType, exportColumns, _serviceProvider);
