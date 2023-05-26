@@ -2,6 +2,13 @@ using Serenity.Services;
 
 namespace Idevs.Models;
 
+public enum AggregateType
+{
+    AVERAGE,
+    COUNT,
+    SUM
+}
+
 public struct AggregateColumn
 {
     public string ColumnName { get; set; }
