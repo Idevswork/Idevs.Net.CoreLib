@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.49 (2023-05-27)
+
+### Fixed
+
+- Fixed summary row title again
+
+
+
 ## 0.0.48 (2023-05-27)
 
 ### Fixed

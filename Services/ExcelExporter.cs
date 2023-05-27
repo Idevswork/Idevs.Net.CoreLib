@@ -315,7 +315,7 @@ public class IdevsExcelExporter : IIdevsExcelExporter
                 foreach (var column in aggregates)
                 {
                     var colIdx = cols.IndexOf(column.ColumnName);
-                    if (colIdx < 0)
+                    if (colIdx < 0 && column.AggregateType != AggregateType.LABEL)
                     {
                         continue;
                     }
