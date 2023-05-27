@@ -323,7 +323,7 @@ public class IdevsExcelExporter : IIdevsExcelExporter
                     switch (column.AggregateType)
                     {
                         case AggregateType.LABEL:
-                            table.Field(titles[colIdx]).TotalsRowLabel = column.Title;
+                            table.Field(0).TotalsRowLabel = column.Title;
                             break;
 
                         case AggregateType.AVERAGE:
