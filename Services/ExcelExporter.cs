@@ -206,14 +206,18 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         var endRow = rows.Count + startRow + 1;
         startRow++;
 
-        for (var col = 0; col < columns.Count; col++)
-        {
-            worksheet.Cell(startRow, col + 1).Value = columns[col].Title ?? columns[col].Name;
-        }
+        CreateTableHeader(worksheet, columns, startRow);
 
+        var groupColumn = aggregates
+            ?.FirstOrDefault(x => x.AggregateType == AggregateType.GROUP)
+            .ColumnName;
+        var startGroup = startRow;
+        var endGroup = startRow;
+        var groupData = string.Empty;
         var dataList = new List<object[]>();
         foreach (var obj in rows)
         {
+            var columnData = string.Empty;
             var data = new object[colCount];
             var row = obj as IRow;
             if (row != null)
@@ -285,63 +289,57 @@ public class IdevsExcelExporter : IIdevsExcelExporter
                             break;
                     }
                 }
+
+                if (columns[c].Name == groupColumn)
+                {
+                    columnData = data[c].ToString();
+                }
             }
 
-            dataList.Add(data);
+            if (!string.IsNullOrEmpty(groupColumn))
+            {
+                if (columnData != groupData)
+                {
+                    if (string.IsNullOrEmpty(groupData))
+                    {
+                        startGroup = startRow;
+                        endGroup = startRow;
+                    }
+                    else
+                    {
+                        CreateTable(worksheet, dataList, columns, startGroup, aggregates);
+
+                        // Clear dataList
+                        dataList = new List<object[]>();
+                        dataList.Add(data);
+
+                        startGroup = endGroup + 3;
+                        endGroup = startGroup;
+
+                        CreateTableHeader(worksheet, columns, startGroup);
+                    }
+                    groupData = columnData;
+                }
+                else
+                {
+                    endGroup++;
+                }
+            }
+            else
+            {
+                dataList.Add(data);
+            }
         }
 
         if (rows.Count > 0)
         {
-            worksheet.Cell(startRow + 1, 1).InsertData(dataList);
-            var range = worksheet.Range(startRow, 1, endRow, colCount);
-
-            // create the actual table
-            var table = range.CreateTable();
-            if (aggregates is not null)
+            if (startGroup > 0)
             {
-                table.ShowTotalsRow = true;
+                startRow = startGroup;
+                endRow = endGroup;
             }
 
-            // apply style
-            table.Theme = aggregates is null
-                ? XLTableTheme.TableStyleMedium2
-                : XLTableTheme.TableStyleMedium9;
-
-            // Add aggregated columns
-            if (aggregates is not null)
-            {
-                var cols = columns.Select(x => x.Name).ToList();
-                var titles = columns.Select(x => x.Title).ToList();
-                foreach (var column in aggregates)
-                {
-                    var colIdx = cols.IndexOf(column.ColumnName);
-                    if (colIdx < 0 && column.AggregateType != AggregateType.LABEL)
-                    {
-                        continue;
-                    }
-
-                    switch (column.AggregateType)
-                    {
-                        case AggregateType.LABEL:
-                            table.Field(0).TotalsRowLabel = column.Title;
-                            break;
-
-                        case AggregateType.AVERAGE:
-                            table.Field(titles[colIdx]).TotalsRowFunction =
-                                XLTotalsRowFunction.Average;
-                            break;
-
-                        case AggregateType.COUNT:
-                            table.Field(titles[colIdx]).TotalsRowFunction =
-                                XLTotalsRowFunction.Count;
-                            break;
-
-                        default:
-                            table.Field(titles[colIdx]).TotalsRowFunction = XLTotalsRowFunction.Sum;
-                            break;
-                    }
-                }
-            }
+            CreateTable(worksheet, dataList, columns, startRow, aggregates);
         }
 
         // Apply column format if available
@@ -387,5 +385,76 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         template.SaveAs(ms);
 
         return ms.ToArray();
+    }
+
+    private void CreateTableHeader(
+        IXLWorksheet worksheet,
+        IReadOnlyList<ReportColumn> columns,
+        int startRow
+    )
+    {
+        for (var col = 0; col < columns.Count; col++)
+        {
+            worksheet.Cell(startRow, col + 1).Value = columns[col].Title ?? columns[col].Name;
+        }
+    }
+
+    private void CreateTable(
+        IXLWorksheet worksheet,
+        List<object[]> dataList,
+        IReadOnlyList<ReportColumn> columns,
+        int startRow,
+        IEnumerable<AggregateColumn>? aggregates = null
+    )
+    {
+        var endRow = startRow + dataList.Count + 1;
+        worksheet.Cell(startRow + 1, 1).InsertData(dataList);
+        var range = worksheet.Range(startRow, 1, endRow, columns.Count);
+
+        // create the actual table
+        var table = range.CreateTable();
+        if (aggregates is not null)
+        {
+            table.ShowTotalsRow = true;
+        }
+
+        // apply style
+        table.Theme = aggregates is null
+            ? XLTableTheme.TableStyleMedium2
+            : XLTableTheme.TableStyleMedium9;
+
+        // Add aggregated columns
+        if (aggregates is not null)
+        {
+            var cols = columns.Select(x => x.Name).ToList();
+            var titles = columns.Select(x => x.Title).ToList();
+            foreach (var column in aggregates)
+            {
+                var colIdx = cols.IndexOf(column.ColumnName);
+                if (colIdx < 0 && column.AggregateType != AggregateType.LABEL)
+                {
+                    continue;
+                }
+
+                switch (column.AggregateType)
+                {
+                    case AggregateType.LABEL:
+                        table.Field(0).TotalsRowLabel = column.Title;
+                        break;
+
+                    case AggregateType.AVERAGE:
+                        table.Field(titles[colIdx]).TotalsRowFunction = XLTotalsRowFunction.Average;
+                        break;
+
+                    case AggregateType.COUNT:
+                        table.Field(titles[colIdx]).TotalsRowFunction = XLTotalsRowFunction.Count;
+                        break;
+
+                    default:
+                        table.Field(titles[colIdx]).TotalsRowFunction = XLTotalsRowFunction.Sum;
+                        break;
+                }
+            }
+        }
     }
 }

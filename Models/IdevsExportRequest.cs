@@ -5,9 +5,10 @@ namespace Idevs.Models;
 public enum AggregateType
 {
     LABEL = 0,
-    AVERAGE = 1,
-    COUNT = 2,
-    SUM = 3
+    GROUP = 1,
+    AVERAGE = 2,
+    COUNT = 3,
+    SUM = 4
 }
 
 public struct AggregateColumn

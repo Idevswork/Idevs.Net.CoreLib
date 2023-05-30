@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.50 (2023-05-31)
+
+### Added
+
+- Add feature for ExcelExporter to support group in aggregate columns
+
+
+
 ## 0.0.49 (2023-05-27)
 
 ### Fixed
