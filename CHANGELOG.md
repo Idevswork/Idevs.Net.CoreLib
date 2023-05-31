@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.57 (2023-06-01)
+
+### Added
+
+- Add support customize table theme style for ExcelExporter
+
+
+
 ## 0.0.56 (2023-05-31)
 
 ### Fixed
