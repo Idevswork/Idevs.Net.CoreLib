@@ -332,7 +332,7 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         {
             if (startGroup > 0)
             {
-                startRow = endGroup + 3;
+                startRow = startGroup;
                 endRow = startRow + dataList.Count();
             }
 

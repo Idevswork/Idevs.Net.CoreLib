@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.53 (2023-05-31)
+
+### Fixed
+
+- Fixed mistake for grouping on ExcelExporter
+
+
+
 ## 0.0.52 (2023-05-31)
 
 ### Fixed
