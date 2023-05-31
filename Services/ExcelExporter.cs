@@ -307,7 +307,7 @@ public class IdevsExcelExporter : IIdevsExcelExporter
                     {
                         CreateTable(worksheet, dataList, columns, startGroup, aggregates);
 
-                        endGroup = startGroup + dataList.Count + 1;
+                        endGroup = startGroup + dataList.Count;
                         startGroup = endGroup + 3;
 
                         // Clear dataList
@@ -397,7 +397,7 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         IEnumerable<AggregateColumn>? aggregates = null
     )
     {
-        var endRow = startRow + dataList.Count + 1;
+        var endRow = startRow + dataList.Count;
         worksheet.Cell(startRow + 1, 1).InsertData(dataList);
         var range = worksheet.Range(startRow, 1, endRow, columns.Count);
 
