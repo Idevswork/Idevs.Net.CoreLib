@@ -309,11 +309,11 @@ public class IdevsExcelExporter : IIdevsExcelExporter
                     {
                         CreateTable(worksheet, dataList, columns, startGroup, aggregates);
 
+                        startGroup = endGroup + 3;
+                        endGroup = startGroup + dataList.Count + 1;
+
                         // Clear dataList
                         dataList = new List<object[]>();
-
-                        startGroup = endGroup + 3;
-                        endGroup = startGroup;
 
                         CreateTableHeader(worksheet, columns, startGroup);
                     }
@@ -333,7 +333,7 @@ public class IdevsExcelExporter : IIdevsExcelExporter
             if (startGroup > 0)
             {
                 startRow = startGroup;
-                endRow = startRow + dataList.Count();
+                endRow = startRow + dataList.Count + 1;
             }
 
             CreateTable(worksheet, dataList, columns, startRow, aggregates);

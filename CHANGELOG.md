@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.54 (2023-05-31)
+
+### Fixed
+
+- Fixed grouping for ExcelExporter again
+
+
+
 ## 0.0.53 (2023-05-31)
 
 ### Fixed
