@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.51 (2023-05-31)
+
+### Fixed
+
+- Fixed row calculation for Group on ExcelExporter
+
+
+
 ## 0.0.50 (2023-05-31)
 
 ### Added

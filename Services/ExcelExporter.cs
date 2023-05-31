@@ -335,8 +335,8 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         {
             if (startGroup > 0)
             {
-                startRow = startGroup;
-                endRow = endGroup;
+                startRow = endGroup + 3;
+                endRow = startRow + dataList.Count();
             }
 
             CreateTable(worksheet, dataList, columns, startRow, aggregates);
