@@ -311,7 +311,6 @@ public class IdevsExcelExporter : IIdevsExcelExporter
 
                         // Clear dataList
                         dataList = new List<object[]>();
-                        dataList.Add(data);
 
                         startGroup = endGroup + 3;
                         endGroup = startGroup;
@@ -325,10 +324,8 @@ public class IdevsExcelExporter : IIdevsExcelExporter
                     endGroup++;
                 }
             }
-            else
-            {
-                dataList.Add(data);
-            }
+
+            dataList.Add(data);
         }
 
         if (rows.Count > 0)
