@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.58 (2023-06-01)
+
+### Fixed
+
+- Fixed nullable type for theme style
+
+
+
 ## 0.0.57 (2023-06-01)
 
 ### Added

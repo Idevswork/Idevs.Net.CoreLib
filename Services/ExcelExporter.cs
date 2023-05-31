@@ -14,36 +14,36 @@ public interface IIdevsExcelExporter
         IEnumerable data,
         IEnumerable<ReportColumn> columns,
         IEnumerable<string>? headers = null,
-        TableTheme tableTheme = TableTheme.TableStyleMedium2
+        TableTheme? tableTheme = TableTheme.TableStyleMedium2
     );
     byte[] Export(
         IEnumerable data,
         Type columnsType,
         IEnumerable<string>? headers = null,
-        TableTheme tableTheme = TableTheme.TableStyleMedium2
+        TableTheme? tableTheme = TableTheme.TableStyleMedium2
     );
     byte[] Export(
         IEnumerable data,
         Type columnsType,
         IEnumerable<string> exportColumns,
         IEnumerable<string>? headers = null,
-        TableTheme tableTheme = TableTheme.TableStyleMedium2
+        TableTheme? tableTheme = TableTheme.TableStyleMedium2
     );
     byte[] ExportWithAggregate(
         IEnumerable data,
         IEnumerable<ReportColumn> columns,
         IEnumerable<string>? headers = null,
         IEnumerable<AggregateColumn>? aggregates = null,
-        TableTheme normalTheme = TableTheme.TableStyleMedium2,
-        TableTheme groupTheme = TableTheme.TableStyleMedium9
+        TableTheme? normalTheme = TableTheme.TableStyleMedium2,
+        TableTheme? groupTheme = TableTheme.TableStyleMedium9
     );
     byte[] ExportWithAggregate(
         IEnumerable data,
         Type columnsType,
         IEnumerable<string>? headers = null,
         IEnumerable<AggregateColumn>? aggregates = null,
-        TableTheme normalTheme = TableTheme.TableStyleMedium2,
-        TableTheme groupTheme = TableTheme.TableStyleMedium9
+        TableTheme? normalTheme = TableTheme.TableStyleMedium2,
+        TableTheme? groupTheme = TableTheme.TableStyleMedium9
     );
     byte[] ExportWithAggregate(
         IEnumerable data,
@@ -51,16 +51,16 @@ public interface IIdevsExcelExporter
         IEnumerable<string> exportColumns,
         IEnumerable<string>? headers = null,
         IEnumerable<AggregateColumn>? aggregates = null,
-        TableTheme normalTheme = TableTheme.TableStyleMedium2,
-        TableTheme groupTheme = TableTheme.TableStyleMedium9
+        TableTheme? normalTheme = TableTheme.TableStyleMedium2,
+        TableTheme? groupTheme = TableTheme.TableStyleMedium9
     );
     byte[] Generate(
         IReadOnlyList<ReportColumn> columns,
         IList rows,
         IEnumerable<string>? headers = null,
         IEnumerable<AggregateColumn>? aggregates = null,
-        TableTheme normalTheme = TableTheme.TableStyleMedium2,
-        TableTheme groupTheme = TableTheme.TableStyleMedium9,
+        TableTheme? normalTheme = TableTheme.TableStyleMedium2,
+        TableTheme? groupTheme = TableTheme.TableStyleMedium9,
         string sheetName = "Page1"
     );
     byte[] ExportReport(string templatePath, params object[] data);
@@ -80,7 +80,7 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         IEnumerable data,
         IEnumerable<ReportColumn> columns,
         IEnumerable<string>? headers = null,
-        TableTheme tableTheme = TableTheme.TableStyleMedium2
+        TableTheme? tableTheme = TableTheme.TableStyleMedium2
     )
     {
         var report = new TabularDataReport(data, columns);
@@ -91,7 +91,7 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         IEnumerable data,
         Type columnsType,
         IEnumerable<string>? headers = null,
-        TableTheme tableTheme = TableTheme.TableStyleMedium2
+        TableTheme? tableTheme = TableTheme.TableStyleMedium2
     )
     {
         var report = new TabularDataReport(data, columnsType, _serviceProvider);
@@ -103,7 +103,7 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         Type columnsType,
         IEnumerable<string> exportColumns,
         IEnumerable<string>? headers = null,
-        TableTheme tableTheme = TableTheme.TableStyleMedium2
+        TableTheme? tableTheme = TableTheme.TableStyleMedium2
     )
     {
         var report = new TabularDataReport(data, columnsType, exportColumns, _serviceProvider);
@@ -115,8 +115,8 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         IEnumerable<ReportColumn> columns,
         IEnumerable<string>? headers = null,
         IEnumerable<AggregateColumn>? aggregates = null,
-        TableTheme normalTheme = TableTheme.TableStyleMedium2,
-        TableTheme groupTheme = TableTheme.TableStyleMedium9
+        TableTheme? normalTheme = TableTheme.TableStyleMedium2,
+        TableTheme? groupTheme = TableTheme.TableStyleMedium9
     )
     {
         var report = new TabularDataReport(data, columns);
@@ -128,8 +128,8 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         Type columnsType,
         IEnumerable<string>? headers = null,
         IEnumerable<AggregateColumn>? aggregates = null,
-        TableTheme normalTheme = TableTheme.TableStyleMedium2,
-        TableTheme groupTheme = TableTheme.TableStyleMedium9
+        TableTheme? normalTheme = TableTheme.TableStyleMedium2,
+        TableTheme? groupTheme = TableTheme.TableStyleMedium9
     )
     {
         var report = new TabularDataReport(data, columnsType, _serviceProvider);
@@ -142,8 +142,8 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         IEnumerable<string> exportColumns,
         IEnumerable<string>? headers = null,
         IEnumerable<AggregateColumn>? aggregates = null,
-        TableTheme normalTheme = TableTheme.TableStyleMedium2,
-        TableTheme groupTheme = TableTheme.TableStyleMedium9
+        TableTheme? normalTheme = TableTheme.TableStyleMedium2,
+        TableTheme? groupTheme = TableTheme.TableStyleMedium9
     )
     {
         var report = new TabularDataReport(data, columnsType, exportColumns, _serviceProvider);
@@ -154,8 +154,8 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         IDataOnlyReport report,
         IEnumerable<string>? headers = null,
         IEnumerable<AggregateColumn>? aggregates = null,
-        TableTheme normalTheme = TableTheme.TableStyleMedium2,
-        TableTheme groupTheme = TableTheme.TableStyleMedium9
+        TableTheme? normalTheme = TableTheme.TableStyleMedium2,
+        TableTheme? groupTheme = TableTheme.TableStyleMedium9
     )
     {
         var columns = report.GetColumnList();
@@ -219,8 +219,8 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         IList rows,
         IEnumerable<string>? headers = null,
         IEnumerable<AggregateColumn>? aggregates = null,
-        TableTheme normalTheme = TableTheme.TableStyleMedium2,
-        TableTheme groupTheme = TableTheme.TableStyleMedium9,
+        TableTheme? normalTheme = TableTheme.TableStyleMedium2,
+        TableTheme? groupTheme = TableTheme.TableStyleMedium9,
         string sheetName = "Sheet1"
     )
     {
@@ -440,8 +440,8 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         List<object[]> dataList,
         IReadOnlyList<ReportColumn> columns,
         int startRow,
-        TableTheme normalTheme,
-        TableTheme groupTheme,
+        TableTheme? normalTheme = TableTheme.TableStyleMedium2,
+        TableTheme? groupTheme = TableTheme.TableStyleMedium9,
         IEnumerable<AggregateColumn>? aggregates = null
     )
     {
