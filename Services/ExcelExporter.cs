@@ -203,7 +203,6 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         using var workbook = new XLWorkbook();
         var worksheet = workbook.Worksheets.Add(sheetName);
         var startRow = headers is not null ? headers.Count() + 1 : 0;
-        var endRow = rows.Count + startRow + 1;
         startRow++;
 
         CreateTableHeader(worksheet, columns, startRow);
@@ -303,14 +302,13 @@ public class IdevsExcelExporter : IIdevsExcelExporter
                     if (string.IsNullOrEmpty(groupData))
                     {
                         startGroup = startRow;
-                        endGroup = startRow;
                     }
                     else
                     {
                         CreateTable(worksheet, dataList, columns, startGroup, aggregates);
 
-                        startGroup = endGroup + 3;
                         endGroup = startGroup + dataList.Count + 1;
+                        startGroup = endGroup + 3;
 
                         // Clear dataList
                         dataList = new List<object[]>();
@@ -318,10 +316,6 @@ public class IdevsExcelExporter : IIdevsExcelExporter
                         CreateTableHeader(worksheet, columns, startGroup);
                     }
                     groupData = columnData;
-                }
-                else
-                {
-                    endGroup++;
                 }
             }
 
@@ -333,7 +327,6 @@ public class IdevsExcelExporter : IIdevsExcelExporter
             if (startGroup > 0)
             {
                 startRow = startGroup;
-                endRow = startRow + dataList.Count + 1;
             }
 
             CreateTable(worksheet, dataList, columns, startRow, aggregates);
