@@ -83,6 +83,11 @@ public struct AggregateColumn
     public AggregateType AggregateType { get; set; }
 }
 
+public struct ReportHeader
+{
+    public string HeaderLine { get; set; }
+}
+
 public interface IIdevsExportRequest
 {
     string ViewName { get; set; }

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.59 (2023-06-01)
+
+## Changes
+
+- Changes ExcelExporter Export signature
+
+
+
 ## 0.0.58 (2023-06-01)
 
 ### Fixed
