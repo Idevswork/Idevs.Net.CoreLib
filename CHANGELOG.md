@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.60 (2023-06-01)
+
+### Fixed
+
+- Rename and remove TableTheme property
+
+
+
 ## 0.0.59 (2023-06-01)
 
 ## Changes

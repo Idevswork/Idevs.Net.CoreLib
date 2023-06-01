@@ -96,8 +96,7 @@ public interface IIdevsExportRequest
     string? SelectionRange { get; set; }
     string? Logo { get; set; }
     object? Entity { get; set; }
-    TableTheme NormalTheme { get; set; }
-    TableTheme GroupTheme { get; set; }
+    TableTheme TableTheme { get; set; }
     IEnumerable<AggregateColumn>? AggregateColumns { get; set; }
 }
 
@@ -109,7 +108,6 @@ public class IdevsExportRequest : ListRequest, IIdevsExportRequest
     public string? SelectionRange { get; set; }
     public string? Logo { get; set; }
     public object? Entity { get; set; }
-    public TableTheme NormalTheme { get; set; }
-    public TableTheme GroupTheme { get; set; }
+    public TableTheme TableTheme { get; set; }
     public IEnumerable<AggregateColumn>? AggregateColumns { get; set; }
 }
