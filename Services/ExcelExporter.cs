@@ -400,7 +400,9 @@ public class IdevsExcelExporter : IIdevsExcelExporter
 
         using var workbook = new XLWorkbook();
         var worksheet = workbook.Worksheets.Add(sheetName);
-        var startRow = reportHeaders is not null ? reportHeaders.Count() + 1 : 0;
+        var startRow = reportHeaders is not null
+            ? reportHeaders.Count(x => !string.IsNullOrEmpty(x.HeaderLine)) + 1
+            : 0;
         startRow++;
 
         CreateTableHeader(worksheet, columns, startRow);
@@ -557,6 +559,10 @@ public class IdevsExcelExporter : IIdevsExcelExporter
             startRow = 1;
             foreach (var header in reportHeaders)
             {
+                if (string.IsNullOrEmpty(header.HeaderLine))
+                {
+                    continue;
+                }
                 worksheet.Cell(startRow++, 1).Value = header.HeaderLine;
             }
         }

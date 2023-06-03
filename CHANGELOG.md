@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.62 (2023-06-04)
+
+### Updates
+
+- Remove blank header line from report headers when generate excel
+
+
+
 ## 0.0.61 (2023-06-03)
 
 ### Added
