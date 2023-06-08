@@ -652,6 +652,10 @@ public class IdevsExcelExporter : IIdevsExcelExporter
                         table.Field(titles[colIdx]).TotalsRowFunction = XLTotalsRowFunction.Count;
                         break;
 
+                    case AggregateType.GROUP:
+                        table.Field(titles[colIdx]).TotalsRowFunction = XLTotalsRowFunction.None;
+                        break;
+
                     default:
                         table.Field(titles[colIdx]).TotalsRowFunction = XLTotalsRowFunction.Sum;
                         break;
