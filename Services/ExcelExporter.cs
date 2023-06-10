@@ -386,7 +386,7 @@ public class IdevsExcelExporter : IIdevsExcelExporter
             && Array.IndexOf(NumberTypes, dataType) >= 0
         )
         {
-            return format;
+            return format.Replace(" ", "");
         }
 
         if (int.TryParse(format.ToLower().Replace("n", string.Empty), out var n) == false)

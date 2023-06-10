@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.66 (2023-06-10)
+
+### Updates
+
+- Updates mapping display format to cell format in Excel Exporter
+
 ## 0.0.65 (2023-06-10)
 
 ### Updates
