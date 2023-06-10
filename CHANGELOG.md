@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.0.64 (2023-06-10)
+
+### Added
+
+- Add support display percent for Excel Export
+- Add DisplayPercentageAttribute
+
 ## 0.0.63 (2023-06-08)
 
 ### Fixed

@@ -331,7 +331,7 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         var list = (input as IEnumerable) ?? new List<object> { input };
         var data = list.Cast<object?>().ToList();
 
-        tableTheme = tableTheme ?? TableTheme.TableStyleMedium2;
+        tableTheme ??= TableTheme.TableStyleMedium2;
 
         return Generate(data, columns, headers, aggregateColumns, tableTheme);
     }
@@ -361,19 +361,33 @@ public class IdevsExcelExporter : IIdevsExcelExporter
     private static string FixFormatSpecifier(string format, Type dataType)
     {
         if (string.IsNullOrEmpty(format))
+        {
             return format;
+        }
 
         if (
             format.Contains('f', StringComparison.Ordinal)
             && Array.IndexOf(DateTimeTypes, dataType) >= 0
         )
+        {
             return format.Replace('f', '0');
+        }
 
         if (
             !format.StartsWith("n", StringComparison.OrdinalIgnoreCase)
             || Array.IndexOf(NumberTypes, dataType) < 0
         )
+        {
             return format;
+        }
+
+        if (
+            format.Contains('%', StringComparison.OrdinalIgnoreCase)
+            && Array.IndexOf(NumberTypes, dataType) >= 0
+        )
+        {
+            return format;
+        }
 
         if (int.TryParse(format.ToLower().Replace("n", string.Empty), out var n) == false)
         {
