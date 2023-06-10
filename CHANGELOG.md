@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.65 (2023-06-10)
+
+### Updates
+
+- Add space before %
+
 ## 0.0.64 (2023-06-10)
 
 ### Added

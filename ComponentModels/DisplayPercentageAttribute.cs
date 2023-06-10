@@ -5,5 +5,5 @@ namespace Idevs.ComponentModel;
 public class DisplayPercentageAttribute : DisplayFormatAttribute
 {
     public DisplayPercentageAttribute()
-        : base("#,##0.00%") { }
+        : base("#,##0.00 %") { }
 }
