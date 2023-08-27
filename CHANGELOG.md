@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.67 (2023-08-27)
+
+### Updates
+
+- Add default font for ClosedXML
+
 ## 0.0.66 (2023-06-10)
 
 ### Updates

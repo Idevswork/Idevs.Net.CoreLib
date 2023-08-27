@@ -413,6 +413,7 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         var colCount = columns.Count;
 
         using var workbook = new XLWorkbook();
+        workbook.Style.Font.FontName = "Carlito";
         var worksheet = workbook.Worksheets.Add(sheetName);
         var startRow = reportHeaders is not null
             ? reportHeaders.Count(x => !string.IsNullOrEmpty(x.HeaderLine)) + 1
