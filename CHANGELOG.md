@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.68 (2023-10-14)
+
+### Updates
+
+- Add PuppeteerSharp library for export to pdf and will be remove PugPDF.Core and WkHtmlToPdf later.
+
 ## 0.0.67 (2023-08-27)
 
 ### Updates
