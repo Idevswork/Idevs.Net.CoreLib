@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.70 (2023-10-14)
+
+### Updates
+
+- Add method GetPageSize and GetMargin to IdevsExportRequest
+
 ## 0.0.69 (2023-10-14)
 
 ### Updates

@@ -101,6 +101,8 @@ public interface IIdevsExportRequest
     object? Entity { get; set; }
     TableTheme TableTheme { get; set; }
     IEnumerable<AggregateColumn>? AggregateColumns { get; set; }
+    string GetPageSize();
+    PageMargin GetMargin();
 }
 
 public class IdevsExportRequest : ListRequest, IIdevsExportRequest
@@ -116,4 +118,7 @@ public class IdevsExportRequest : ListRequest, IIdevsExportRequest
     public object? Entity { get; set; }
     public TableTheme TableTheme { get; set; }
     public IEnumerable<AggregateColumn>? AggregateColumns { get; set; }
+
+    public string GetPageSize() => string.IsNullOrWhiteSpace(PageSize) ? "A4 Landscape" : PageSize;
+    public PageMargin GetMargin() => Margin ?? new PageMargin();
 }
