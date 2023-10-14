@@ -96,6 +96,8 @@ public interface IIdevsExportRequest
     string? SelectionRange { get; set; }
     string? ConditionRange { get; set; }
     string? Logo { get; set; }
+    string? PageSize { get; set; }
+    PageMargin? Margin { get; set; }
     object? Entity { get; set; }
     TableTheme TableTheme { get; set; }
     IEnumerable<AggregateColumn>? AggregateColumns { get; set; }
@@ -109,6 +111,8 @@ public class IdevsExportRequest : ListRequest, IIdevsExportRequest
     public string? SelectionRange { get; set; }
     public string? ConditionRange { get; set; }
     public string? Logo { get; set; }
+    public string? PageSize { get; set; }
+    public PageMargin? Margin { get; set; }
     public object? Entity { get; set; }
     public TableTheme TableTheme { get; set; }
     public IEnumerable<AggregateColumn>? AggregateColumns { get; set; }

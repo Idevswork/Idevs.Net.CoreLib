@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.69 (2023-10-14)
+
+### Updates
+
+- Update IdevsExportRequest by add property PageSize and PageMargin
+
 ## 0.0.68 (2023-10-14)
 
 ### Updates
