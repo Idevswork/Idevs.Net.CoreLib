@@ -1,6 +1,6 @@
 using System.Data;
+using Microsoft.Extensions.Logging;
 using Serenity;
-using Serenity.Abstractions;
 using Serenity.Data;
 
 namespace Idevs.Repositories;
@@ -9,7 +9,7 @@ public class RepositoryBase
 {
     protected ISqlConnections SqlConnections { get; }
     protected IDbConnection Connection => SqlConnections.NewByKey("Default");
-    protected IExceptionLogger ExceptionLog { get; }
+    protected ILogger ExceptionLog { get; }
     protected ITextLocalizer Localizer { get; }
 
     protected SqlQuery SqlQuery => new SqlQuery().Dialect(SqlServer2012Dialect.Instance);
@@ -17,7 +17,7 @@ public class RepositoryBase
     protected SqlUpdate SqlUpdate(string tableName) => new SqlUpdate(tableName).Dialect(SqlServer2012Dialect.Instance);
     protected SqlDelete SqlDelete(string tableName) => new SqlDelete(tableName);
 
-    public RepositoryBase(ISqlConnections sqlConnections, IExceptionLogger exceptionLogger, ITextLocalizer localizer)
+    public RepositoryBase(ISqlConnections sqlConnections, ILogger exceptionLogger, ITextLocalizer localizer)
     {
         SqlConnections = sqlConnections
                          ?? throw new ArgumentNullException(nameof(sqlConnections));

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.71 (2023-10-15)
+
+### Changes
+
+- Remove PugPDF.Core
+- Update IdevsExportRequest, PageMargin
+- Add PageSize with PageSizes enum and PageOrientations enum
+
 ## 0.0.70 (2023-10-14)
 
 ### Updates

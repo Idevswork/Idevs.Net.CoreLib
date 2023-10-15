@@ -1,12 +1,9 @@
-using Idevs.Models;
-using PugPdf.Core;
 using PuppeteerSharp;
 
 namespace Idevs.Services;
 
 public interface IIdevsPdfExporter
 {
-    byte[] Export(string html, PdfPrintOptions? options = null);
     byte[] Export(string html, string headerTemplate = "<p></p>", string footerTemplate = "<p></p>");
 }
 
@@ -21,7 +18,7 @@ public class IdevsPdfExporter : IIdevsPdfExporter
         return pdfBytes;
     }
 
-    private async Task<byte[]> DoGeneratePdf(
+    private static async Task<byte[]> DoGeneratePdf(
         string html,
         string headerTemplate = "<p></p>",
         string footerTemplate = "<p></p>")
@@ -38,17 +35,5 @@ public class IdevsPdfExporter : IIdevsPdfExporter
             FooterTemplate = footerTemplate,
             DisplayHeaderFooter = true
         });
-    }
-
-    public byte[] Export(string html, PdfPrintOptions? options = null)
-    {
-        options ??= new PdfPrintOptions();
-        var renderer = new HtmlToPdf
-        {
-            PrintOptions = options
-        };
-
-        var pdf = renderer.RenderHtmlAsPdfAsync(html).Result;
-        return pdf.BinaryData;
     }
 }
