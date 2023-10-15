@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.72 (2023-10-15)
+
+### Changes
+
+- Rollback serenity to version 6.5.1
+- Rollback ILogger to IExceptionLogger may be implement after test
+- Update RepositoryBase
+- Update ExcelExporter
+- Upgrade library
+
 ## 0.0.71 (2023-10-15)
 
 ### Changes

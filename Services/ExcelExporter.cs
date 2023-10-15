@@ -1,6 +1,5 @@
 using System.Collections;
 using ClosedXML.Excel;
-using ClosedXML.Report;
 using FastMember;
 using Idevs.Models;
 using Serenity.Data;
@@ -119,7 +118,6 @@ public interface IIdevsExcelExporter
         TableTheme? tableTheme,
         string sheetName = "Page1"
     );
-    byte[] ExportReport(string templatePath, params object[] data);
 }
 
 public class IdevsExcelExporter : IIdevsExcelExporter
@@ -588,22 +586,7 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         return ms.ToArray();
     }
 
-    public byte[] ExportReport(string templatePath, params object[] data)
-    {
-        var template = new XLTemplate(templatePath);
-        foreach (var o in data)
-        {
-            template.AddVariable(o);
-        }
-        template.Generate();
-
-        var ms = new MemoryStream();
-        template.SaveAs(ms);
-
-        return ms.ToArray();
-    }
-
-    private void CreateTableHeader(
+    private static void CreateTableHeader(
         IXLWorksheet worksheet,
         IReadOnlyList<ReportColumn> columns,
         int startRow
@@ -615,7 +598,7 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         }
     }
 
-    private void CreateTable(
+    private static void CreateTable(
         IXLWorksheet worksheet,
         List<object[]> dataList,
         IReadOnlyList<ReportColumn> columns,
@@ -636,9 +619,10 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         }
 
         // apply style
-        table.Theme = aggregateColumns is null
-            ? XLTableTheme.FromName(normalTheme.ToString())
-            : XLTableTheme.FromName(normalTheme.ToString());
+        var theme = aggregateColumns is null 
+            ? TableTheme.TableStyleMedium2.ToString()
+            : normalTheme?.ToString() ?? TableTheme.TableStyleMedium2.ToString();
+        table.Theme = XLTableTheme.FromName(theme);
 
         // Add aggregated columns
         if (aggregateColumns is not null)
