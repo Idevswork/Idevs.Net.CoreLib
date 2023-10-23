@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.73 (2023-10-23)
+
+### Updates
+
+- Update CheckboxButtonEditorAttribute add option IsStringId
+
 ## 0.0.72 (2023-10-15)
 
 ### Changes

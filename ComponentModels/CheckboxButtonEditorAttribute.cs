@@ -28,4 +28,10 @@ public partial class CheckboxButtonEditorAttribute : CustomEditorAttribute
         get => GetOption<string>("lookupKey") ?? string.Empty;
         set => SetOption("lookupKey", value);
     }
+
+    public bool IsStringId
+    {
+        get => GetOption<bool>("isStringId");
+        set => SetOption("isStringId", value);
+    }
 }
