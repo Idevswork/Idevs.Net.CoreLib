@@ -5,7 +5,7 @@ namespace Idevs.Extensions;
 public static class EnumExtensions
 {
     public static string GetDescription<T>(this T enumValue)
-            where T : struct, IConvertible
+        where T : struct, IConvertible
     {
         if (!typeof(T).IsEnum)
             return string.Empty;
@@ -15,13 +15,12 @@ public static class EnumExtensions
             return string.Empty;
 
         var fieldInfo = enumValue.GetType().GetField(description);
-        if (fieldInfo != null)
+        if (fieldInfo == null) return description;
+
+        var attrs = fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), true);
+        if (attrs.Length > 0)
         {
-            var attrs = fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), true);
-            if (attrs != null && attrs.Length > 0)
-            {
-                description = ((DescriptionAttribute)attrs[0]).Description;
-            }
+            description = ((DescriptionAttribute)attrs[0]).Description;
         }
 
         return description;

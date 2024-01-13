@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.74 (2024-01-13)
+
+### Changes
+
+- Add support DotNet 8.0 with serenity 8.1.5
+- Remove unnecessary part
+- Remove support aggregate columns from ExcelExporter it's cause performance issue
+
 ## 0.0.73 (2023-10-23)
 
 ### Updates

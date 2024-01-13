@@ -9,19 +9,20 @@ public static class ServicExtensions
     public static void RegisterServices(this IServiceCollection services, IConfiguration configuration)
     {
         // Define types that need matching
-        Type scopedRegistration = typeof(ScopedRegistrationAttribute);
-        Type singletonRegistration = typeof(SingletonRegiatrationAttribute);
-        Type transientRegistration = typeof(TransientRegistrationAttribute);
+        var scopedRegistration = typeof(ScopedRegistrationAttribute);
+        var singletonRegistration = typeof(SingletonRegiatrationAttribute);
+        var transientRegistration = typeof(TransientRegistrationAttribute);
 
         var types = AppDomain.CurrentDomain.GetAssemblies()
-        .SelectMany(s => s.GetTypes())
-        .Where(p => p.IsDefined(scopedRegistration, false) || p.IsDefined(transientRegistration, false) || p.IsDefined(singletonRegistration, false) && !p.IsInterface)
-        .Select(s => new
-        {
-            Service = s.GetInterface($"I{s.Name}"),
-            Implementation = s
-        })
-        .Where(x => x.Service != null);
+            .SelectMany(s => s.GetTypes())
+            .Where(p => p.IsDefined(scopedRegistration, false) || p.IsDefined(transientRegistration, false) ||
+                        p.IsDefined(singletonRegistration, false) && !p.IsInterface)
+            .Select(s => new
+            {
+                Service = s.GetInterface($"I{s.Name}"),
+                Implementation = s
+            })
+            .Where(x => x.Service != null);
 
         foreach (var type in types)
         {

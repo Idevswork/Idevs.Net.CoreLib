@@ -11,111 +11,29 @@ public interface IIdevsExcelExporter
 {
     // Very basic
     byte[] Export(IEnumerable data, IEnumerable<ReportColumn> columns);
-    byte[] Export(IEnumerable data, IEnumerable<ReportColumn> columns, TableTheme tableTheme);
 
     // Basic
     byte[] Export(IEnumerable data, Type columnsType);
-    byte[] Export(IEnumerable data, Type columnsType, TableTheme tableTheme);
 
     // With export columns
     byte[] Export(IEnumerable data, Type columnsType, IEnumerable<string> exportColumns);
-    byte[] Export(
-        IEnumerable data,
-        Type columnsType,
-        IEnumerable<string> exportColumns,
-        TableTheme tableTheme
-    );
 
     // With report headers
     byte[] Export(IEnumerable data, Type columnsType, IEnumerable<ReportHeader> reportHeaders);
-    byte[] Export(
-        IEnumerable data,
-        Type columnsType,
-        IEnumerable<ReportHeader> reportHeaders,
-        TableTheme tableTheme
-    );
-
-    // With aggregate columns
-    byte[] Export(
-        IEnumerable data,
-        Type columnsType,
-        IEnumerable<AggregateColumn> aggregateColumns
-    );
-    byte[] Export(
-        IEnumerable data,
-        Type columnsType,
-        IEnumerable<AggregateColumn> aggregateColumns,
-        TableTheme tableTheme
-    );
 
     // With export columns + report headers
     byte[] Export(
         IEnumerable data,
         Type columnsType,
         IEnumerable<string> exportColumns,
-        IEnumerable<ReportHeader> reportHeaders
-    );
-    byte[] Export(
-        IEnumerable data,
-        Type columnsType,
-        IEnumerable<string> exportColumns,
-        IEnumerable<ReportHeader> reportHeaders,
-        TableTheme tableTheme
+        IEnumerable<ReportHeader>? reportHeaders
     );
 
-    // With export column + aggregate columns
-    byte[] Export(
-        IEnumerable data,
-        Type columnsType,
-        IEnumerable<string> exportColumns,
-        IEnumerable<AggregateColumn> aggregateColumns
-    );
-    byte[] Export(
-        IEnumerable data,
-        Type columnsType,
-        IEnumerable<string> exportColumns,
-        IEnumerable<AggregateColumn> aggregateColumns,
-        TableTheme tableTheme
-    );
-
-    // With report headers + aggregate columns
-    byte[] Export(
-        IEnumerable data,
-        Type columnsType,
-        IEnumerable<ReportHeader> reportHeaders,
-        IEnumerable<AggregateColumn> aggregateColumns
-    );
-    byte[] Export(
-        IEnumerable data,
-        Type columnsType,
-        IEnumerable<ReportHeader> reportHeaders,
-        IEnumerable<AggregateColumn> aggregateColumns,
-        TableTheme tableTheme
-    );
-
-    // With export columns + report headers + aggregate columns
-    byte[] Export(
-        IEnumerable data,
-        Type columnsType,
-        IEnumerable<string> exportColumns,
-        IEnumerable<ReportHeader> reportHeaders,
-        IEnumerable<AggregateColumn> aggregateColumns
-    );
-    byte[] Export(
-        IEnumerable data,
-        Type columnsType,
-        IEnumerable<string> exportColumns,
-        IEnumerable<ReportHeader> reportHeaders,
-        IEnumerable<AggregateColumn> aggregateColumns,
-        TableTheme tableTheme
-    );
 
     byte[] Generate(
         IList rows,
         IReadOnlyList<ReportColumn> columns,
         IEnumerable<ReportHeader>? reportHeaders,
-        IEnumerable<AggregateColumn>? aggregateColumns,
-        TableTheme? tableTheme,
         string sheetName = "Page1"
     );
 }
@@ -134,44 +52,21 @@ public class IdevsExcelExporter : IIdevsExcelExporter
     public byte[] Export(IEnumerable data, IEnumerable<ReportColumn> columns)
     {
         var report = new TabularDataReport(data, columns);
-        return Render(report, null, null, null);
-    }
-
-    public byte[] Export(IEnumerable data, IEnumerable<ReportColumn> columns, TableTheme tableTheme)
-    {
-        var report = new TabularDataReport(data, columns);
-        return Render(report, null, null, tableTheme);
+        return Render(report, null);
     }
 
     // Basic
     public byte[] Export(IEnumerable data, Type columnsType)
     {
         var report = new TabularDataReport(data, columnsType, _serviceProvider);
-        return Render(report, null, null, null);
-    }
-
-    public byte[] Export(IEnumerable data, Type columnsType, TableTheme tableTheme)
-    {
-        var report = new TabularDataReport(data, columnsType, _serviceProvider);
-        return Render(report, null, null, tableTheme);
+        return Render(report, null);
     }
 
     // With export columns
     public byte[] Export(IEnumerable data, Type columnsType, IEnumerable<string> exportColumns)
     {
         var report = new TabularDataReport(data, columnsType, exportColumns, _serviceProvider);
-        return Render(report, null, null, null);
-    }
-
-    public byte[] Export(
-        IEnumerable data,
-        Type columnsType,
-        IEnumerable<string> exportColumns,
-        TableTheme tableTheme
-    )
-    {
-        var report = new TabularDataReport(data, columnsType, exportColumns, _serviceProvider);
-        return Render(report, null, null, tableTheme);
+        return Render(report, null);
     }
 
     // With report headers
@@ -182,40 +77,7 @@ public class IdevsExcelExporter : IIdevsExcelExporter
     )
     {
         var report = new TabularDataReport(data, columnsType, _serviceProvider);
-        return Render(report, reportHeaders, null, null);
-    }
-
-    public byte[] Export(
-        IEnumerable data,
-        Type columnsType,
-        IEnumerable<ReportHeader> reportHeaders,
-        TableTheme tableTheme
-    )
-    {
-        var report = new TabularDataReport(data, columnsType, _serviceProvider);
-        return Render(report, reportHeaders, null, tableTheme);
-    }
-
-    // With aggregate columns
-    public byte[] Export(
-        IEnumerable data,
-        Type columnsType,
-        IEnumerable<AggregateColumn> aggregateColumns
-    )
-    {
-        var report = new TabularDataReport(data, columnsType, _serviceProvider);
-        return Render(report, null, aggregateColumns, null);
-    }
-
-    public byte[] Export(
-        IEnumerable data,
-        Type columnsType,
-        IEnumerable<AggregateColumn> aggregateColumns,
-        TableTheme tableTheme
-    )
-    {
-        var report = new TabularDataReport(data, columnsType, _serviceProvider);
-        return Render(report, null, aggregateColumns, tableTheme);
+        return Render(report, reportHeaders);
     }
 
     // With export columns + report headers
@@ -223,104 +85,16 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         IEnumerable data,
         Type columnsType,
         IEnumerable<string> exportColumns,
-        IEnumerable<ReportHeader> reportHeaders
+        IEnumerable<ReportHeader>? reportHeaders
     )
     {
         var report = new TabularDataReport(data, columnsType, exportColumns, _serviceProvider);
-        return Render(report, reportHeaders, null, null);
-    }
-
-    public byte[] Export(
-        IEnumerable data,
-        Type columnsType,
-        IEnumerable<string> exportColumns,
-        IEnumerable<ReportHeader> reportHeaders,
-        TableTheme tableTheme
-    )
-    {
-        var report = new TabularDataReport(data, columnsType, exportColumns, _serviceProvider);
-        return Render(report, reportHeaders, null, tableTheme);
-    }
-
-    // With export column + aggregate columns
-    public byte[] Export(
-        IEnumerable data,
-        Type columnsType,
-        IEnumerable<string> exportColumns,
-        IEnumerable<AggregateColumn> aggregateColumns
-    )
-    {
-        var report = new TabularDataReport(data, columnsType, exportColumns, _serviceProvider);
-        return Render(report, null, aggregateColumns, null);
-    }
-
-    public byte[] Export(
-        IEnumerable data,
-        Type columnsType,
-        IEnumerable<string> exportColumns,
-        IEnumerable<AggregateColumn> aggregateColumns,
-        TableTheme tableTheme
-    )
-    {
-        var report = new TabularDataReport(data, columnsType, exportColumns, _serviceProvider);
-        return Render(report, null, aggregateColumns, tableTheme);
-    }
-
-    // With report headers + aggregate columns
-    public byte[] Export(
-        IEnumerable data,
-        Type columnsType,
-        IEnumerable<ReportHeader> reportHeaders,
-        IEnumerable<AggregateColumn> aggregateColumns
-    )
-    {
-        var report = new TabularDataReport(data, columnsType, _serviceProvider);
-        return Render(report, reportHeaders, aggregateColumns, null);
-    }
-
-    public byte[] Export(
-        IEnumerable data,
-        Type columnsType,
-        IEnumerable<ReportHeader> reportHeaders,
-        IEnumerable<AggregateColumn> aggregateColumns,
-        TableTheme tableTheme
-    )
-    {
-        var report = new TabularDataReport(data, columnsType, _serviceProvider);
-        return Render(report, reportHeaders, aggregateColumns, tableTheme);
-    }
-
-    // With export columns + report headers + aggregate columns
-    public byte[] Export(
-        IEnumerable data,
-        Type columnsType,
-        IEnumerable<string> exportColumns,
-        IEnumerable<ReportHeader> reportHeaders,
-        IEnumerable<AggregateColumn> aggregateColumns
-    )
-    {
-        var report = new TabularDataReport(data, columnsType, exportColumns, _serviceProvider);
-        return Render(report, reportHeaders, aggregateColumns, null);
-    }
-
-    public byte[] Export(
-        IEnumerable data,
-        Type columnsType,
-        IEnumerable<string> exportColumns,
-        IEnumerable<ReportHeader> reportHeaders,
-        IEnumerable<AggregateColumn> aggregateColumns,
-        TableTheme tableTheme
-    )
-    {
-        var report = new TabularDataReport(data, columnsType, exportColumns, _serviceProvider);
-        return Render(report, reportHeaders, aggregateColumns, tableTheme);
+        return Render(report, reportHeaders);
     }
 
     private byte[] Render(
         IDataOnlyReport report,
-        IEnumerable<ReportHeader>? headers,
-        IEnumerable<AggregateColumn>? aggregateColumns,
-        TableTheme? tableTheme
+        IEnumerable<ReportHeader>? headers
     )
     {
         var columns = report.GetColumnList();
@@ -329,9 +103,7 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         var list = (input as IEnumerable) ?? new List<object> { input };
         var data = list.Cast<object?>().ToList();
 
-        tableTheme ??= TableTheme.TableStyleMedium2;
-
-        return Generate(data, columns, headers, aggregateColumns, tableTheme);
+        return Generate(data, columns, headers);
     }
 
     private static readonly Type[] DateTimeTypes = new[]
@@ -399,8 +171,6 @@ public class IdevsExcelExporter : IIdevsExcelExporter
         IList rows,
         IReadOnlyList<ReportColumn> columns,
         IEnumerable<ReportHeader>? reportHeaders,
-        IEnumerable<AggregateColumn>? aggregateColumns,
-        TableTheme? tableTheme,
         string sheetName = "Sheet1"
     )
     {
@@ -420,16 +190,9 @@ public class IdevsExcelExporter : IIdevsExcelExporter
 
         CreateTableHeader(worksheet, columns, startRow);
 
-        var groupColumn = aggregateColumns
-            ?.FirstOrDefault(x => x.AggregateType == AggregateType.GROUP)
-            .ColumnName;
-        var startGroup = startRow;
-        var endGroup = startRow;
-        var groupData = string.Empty;
         var dataList = new List<object[]>();
         foreach (var obj in rows)
         {
-            var columnData = string.Empty;
             var data = new object[colCount];
             var row = obj as IRow;
             if (row != null)
@@ -446,7 +209,7 @@ public class IdevsExcelExporter : IIdevsExcelExporter
             }
             else if (obj != null)
             {
-                if (obj is IDictionary || obj is IDictionary<string, object>) { }
+                if (obj is IDictionary or IDictionary<string, object>) { }
                 else if (accessor == null)
                 {
                     accessor = TypeAccessor.Create(obj.GetType());
@@ -478,7 +241,7 @@ public class IdevsExcelExporter : IIdevsExcelExporter
                     {
                         case IDictionary<string, object> objects:
                             n = columns[c].Name;
-                            if (objects.TryGetValue(n, out object? v))
+                            if (objects.TryGetValue(n, out var v))
                                 data[c] = v;
                             break;
 
@@ -501,42 +264,6 @@ public class IdevsExcelExporter : IIdevsExcelExporter
                             break;
                     }
                 }
-
-                if (columns[c].Name == groupColumn)
-                {
-                    columnData = data[c].ToString();
-                }
-            }
-
-            if (!string.IsNullOrEmpty(groupColumn))
-            {
-                if (columnData != groupData)
-                {
-                    if (string.IsNullOrEmpty(groupData))
-                    {
-                        startGroup = startRow;
-                    }
-                    else
-                    {
-                        CreateTable(
-                            worksheet,
-                            dataList,
-                            columns,
-                            startGroup,
-                            aggregateColumns,
-                            tableTheme
-                        );
-
-                        endGroup = startGroup + dataList.Count;
-                        startGroup = endGroup + 3;
-
-                        // Clear dataList
-                        dataList = new List<object[]>();
-
-                        CreateTableHeader(worksheet, columns, startGroup);
-                    }
-                    groupData = columnData;
-                }
             }
 
             dataList.Add(data);
@@ -544,12 +271,7 @@ public class IdevsExcelExporter : IIdevsExcelExporter
 
         if (rows.Count > 0)
         {
-            if (startGroup > 0)
-            {
-                startRow = startGroup;
-            }
-
-            CreateTable(worksheet, dataList, columns, startRow, aggregateColumns, tableTheme);
+            CreateTable(worksheet, dataList, columns, startRow);
         }
 
         // Apply column format if available
@@ -600,11 +322,9 @@ public class IdevsExcelExporter : IIdevsExcelExporter
 
     private static void CreateTable(
         IXLWorksheet worksheet,
-        List<object[]> dataList,
-        IReadOnlyList<ReportColumn> columns,
-        int startRow,
-        IEnumerable<AggregateColumn>? aggregateColumns,
-        TableTheme? normalTheme
+        ICollection dataList,
+        IReadOnlyCollection<ReportColumn> columns,
+        int startRow
     )
     {
         var endRow = startRow + dataList.Count;
@@ -613,53 +333,9 @@ public class IdevsExcelExporter : IIdevsExcelExporter
 
         // create the actual table
         var table = range.CreateTable();
-        if (aggregateColumns is not null)
-        {
-            table.ShowTotalsRow = true;
-        }
 
         // apply style
-        var theme = aggregateColumns is null 
-            ? TableTheme.TableStyleMedium2.ToString()
-            : normalTheme?.ToString() ?? TableTheme.TableStyleMedium2.ToString();
+        var theme = TableTheme.TableStyleMedium2.ToString();
         table.Theme = XLTableTheme.FromName(theme);
-
-        // Add aggregated columns
-        if (aggregateColumns is not null)
-        {
-            var cols = columns.Select(x => x.Name).ToList();
-            var titles = columns.Select(x => x.Title).ToList();
-            foreach (var column in aggregateColumns)
-            {
-                var colIdx = cols.IndexOf(column.ColumnName);
-                if (colIdx < 0 && column.AggregateType != AggregateType.LABEL)
-                {
-                    continue;
-                }
-
-                switch (column.AggregateType)
-                {
-                    case AggregateType.LABEL:
-                        table.Field(0).TotalsRowLabel = column.Title;
-                        break;
-
-                    case AggregateType.AVERAGE:
-                        table.Field(titles[colIdx]).TotalsRowFunction = XLTotalsRowFunction.Average;
-                        break;
-
-                    case AggregateType.COUNT:
-                        table.Field(titles[colIdx]).TotalsRowFunction = XLTotalsRowFunction.Count;
-                        break;
-
-                    case AggregateType.GROUP:
-                        table.Field(titles[colIdx]).TotalsRowFunction = XLTotalsRowFunction.None;
-                        break;
-
-                    default:
-                        table.Field(titles[colIdx]).TotalsRowFunction = XLTotalsRowFunction.Sum;
-                        break;
-                }
-            }
-        }
     }
 }

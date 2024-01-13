@@ -1,5 +1,3 @@
-using System;
-
 namespace Idevs.Extensions;
 
 public static class NumberExtensions
@@ -56,8 +54,10 @@ public static class NumberExtensions
         string[] strThaiNumber = { "ศูนย์", "หนึ่ง", "สอง", "สาม", "สี่", "ห้า", "หก", "เจ็ด", "แปด", "เก้า", "สิบ" };
         string[] strThaiPos = { "", "สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน" };
 
-        decimal decNumber = 0;
-        decimal.TryParse(strNumber, out decNumber);
+        if (!decimal.TryParse(strNumber, out var decNumber))
+        {
+            decNumber = 0;
+        }
 
         if (decNumber == 0)
         {
@@ -65,8 +65,8 @@ public static class NumberExtensions
         }
 
         strNumber = decNumber.ToString("0.00");
-        string strInteger = strNumber.Split('.')[0];
-        string strSatang = strNumber.Split('.')[1];
+        var strInteger = strNumber.Split('.')[0];
+        var strSatang = strNumber.Split('.')[1];
 
         if (strInteger.Length > 13)
             throw new Exception("รองรับตัวเลขได้เพียง ล้านล้าน เท่านั้น!");
@@ -83,23 +83,22 @@ public static class NumberExtensions
         for (var i = 0; i < strInteger.Length; i++)
         {
             var number = strInteger.Substring(i, 1);
-            if (number != "0")
-            {
-                if (i == strLength - 1 && number == "1" && strLength != 1)
-                {
-                    bahtText += "เอ็ด";
-                }
-                else if (i == strLength - 2 && number == "2" && strLength != 1)
-                {
-                    bahtText += "ยี่";
-                }
-                else if (i != strLength - 2 || number != "1")
-                {
-                    bahtText += strThaiNumber[int.Parse(number)];
-                }
+            if (number == "0") continue;
 
-                bahtText += strThaiPos[(strLength - i) - 1];
+            if (i == strLength - 1 && number == "1" && strLength != 1)
+            {
+                bahtText += "เอ็ด";
             }
+            else if (i == strLength - 2 && number == "2" && strLength != 1)
+            {
+                bahtText += "ยี่";
+            }
+            else if (i != strLength - 2 || number != "1")
+            {
+                bahtText += strThaiNumber[int.Parse(number)];
+            }
+
+            bahtText += strThaiPos[(strLength - i) - 1];
         }
 
         if (IsTrillion)
@@ -122,23 +121,22 @@ public static class NumberExtensions
             for (var i = 0; i < strSatang.Length; i++)
             {
                 var number = strSatang.Substring(i, 1);
-                if (number != "0")
-                {
-                    if (i == strLength - 1 && number == "1" && strSatang[0].ToString() != "0")
-                    {
-                        bahtText += "เอ็ด";
-                    }
-                    else if (i == strLength - 2 && number == "2" && strSatang[0].ToString() != "0")
-                    {
-                        bahtText += "ยี่";
-                    }
-                    else if (i != strLength - 2 || number != "1")
-                    {
-                        bahtText += strThaiNumber[int.Parse(number)];
-                    }
+                if (number == "0") continue;
 
-                    bahtText += strThaiPos[(strLength - i) - 1];
+                if (i == strLength - 1 && number == "1" && strSatang[0].ToString() != "0")
+                {
+                    bahtText += "เอ็ด";
                 }
+                else if (i == strLength - 2 && number == "2" && strSatang[0].ToString() != "0")
+                {
+                    bahtText += "ยี่";
+                }
+                else if (i != strLength - 2 || number != "1")
+                {
+                    bahtText += strThaiNumber[int.Parse(number)];
+                }
+
+                bahtText += strThaiPos[(strLength - i) - 1];
             }
 
             bahtText += "สตางค์";

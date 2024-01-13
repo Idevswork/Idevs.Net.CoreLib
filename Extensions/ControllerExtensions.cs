@@ -1,5 +1,4 @@
-using System;
-using System.IO;
+using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
@@ -9,7 +8,8 @@ namespace Idevs.Extensions;
 
 public static class ControllerExtensions
 {
-    public static string RenderView<T>(this Controller controller, string path, string viewName, T model, bool partial = false)
+    public static string RenderView<T>(this Controller controller, string path, string viewName, T model,
+        bool partial = false)
     {
         if (string.IsNullOrEmpty(viewName))
         {
@@ -22,10 +22,7 @@ public static class ControllerExtensions
         IViewEngine? viewEngine =
             controller.HttpContext.RequestServices.GetService(typeof(ICompositeViewEngine)) as ICompositeViewEngine;
 
-        if (viewEngine is null)
-        {
-            throw new Exception($"A view engine is required");
-        }
+        Guard.Against.Null(viewEngine, nameof(viewEngine), "A view engine is required");
 
         var viewResult = viewEngine.GetView(path, viewName, isMainPage: true);
         if (viewResult.Success == false)
