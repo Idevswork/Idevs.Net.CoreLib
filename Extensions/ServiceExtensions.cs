@@ -1,4 +1,5 @@
 using Idevs.ComponentModel;
+using Idevs.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -6,6 +7,12 @@ namespace Idevs.Extensions;
 
 public static class ServicExtensions
 {
+    public static void AddIdevsCoreLibService(this IServiceCollection services) {
+        services.AddScoped<IViewPageRenderer, ViewPageRenderer>();
+        services.AddScoped<IIdevsPdfExporter, IdevsPdfExporter>();
+        services.AddScoped<IIdevsExcelExporter, IdevsExcelExporter>();
+    }
+
     public static void RegisterServices(this IServiceCollection services, IConfiguration configuration)
     {
         // Define types that need matching

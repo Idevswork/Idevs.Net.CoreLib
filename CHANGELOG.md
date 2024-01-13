@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.75 (2024-01-13)
+
+### Updates
+
+- Add service register
+
 ## 0.0.74 (2024-01-13)
 
 ### Changes
