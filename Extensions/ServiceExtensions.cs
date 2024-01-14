@@ -7,13 +7,15 @@ namespace Idevs.Extensions;
 
 public static class ServicExtensions
 {
-    public static void AddIdevsCoreLibService(this IServiceCollection services) {
+    public static void AddIdevsCoreLibServices(this IServiceCollection services) {
         services.AddScoped<IViewPageRenderer, ViewPageRenderer>();
         services.AddScoped<IIdevsPdfExporter, IdevsPdfExporter>();
         services.AddScoped<IIdevsExcelExporter, IdevsExcelExporter>();
+
+        services.RegisterServices();
     }
 
-    public static void RegisterServices(this IServiceCollection services, IConfiguration configuration)
+    public static void RegisterServices(this IServiceCollection services)
     {
         // Define types that need matching
         var scopedRegistration = typeof(ScopedRegistrationAttribute);

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.0.76 (2024-01-14)
+
+### Changes
+
+- Remove IConfiguration from RegisterServices
+- Rename AddIdevCoreLibServices and also call RegisterServices
+
 ## 0.0.75 (2024-01-13)
 
 ### Updates
