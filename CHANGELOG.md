@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.78 (2024-01-14)
+
+### Changes
+
+- Refactory RegisterServices again
+
 ## 0.0.77 (2024-01-14)
 
 ### Changes
