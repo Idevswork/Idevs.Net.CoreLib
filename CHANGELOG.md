@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.79 (2024-01-14)
+
+### Changes
+
+- Rollback to original with some refactor. Error from Microsoft.Data.SqlClient have to install new version
+
 ## 0.0.78 (2024-01-14)
 
 ### Changes

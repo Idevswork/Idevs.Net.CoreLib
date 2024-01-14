@@ -6,29 +6,22 @@ namespace Idevs.Extensions;
 
 public static class ServicExtensions
 {
-    public static void AddIdevsCoreLibServices(this IServiceCollection services, string[]? namespaces = null) {
+    public static IServiceCollection AddIdevsCoreLibServices(this IServiceCollection services) {
         services.AddScoped<IViewPageRenderer, ViewPageRenderer>();
         services.AddScoped<IIdevsPdfExporter, IdevsPdfExporter>();
         services.AddScoped<IIdevsExcelExporter, IdevsExcelExporter>();
 
-        if (namespaces is not null) {
-            services.RegisterServices(namespaces);
-        }
+        return services;
     }
 
-    public static IServiceCollection RegisterServices(this IServiceCollection services, string[] namespaces)
+    public static IServiceCollection RegisterServices(this IServiceCollection services)
     {
         var scopedRegistration = typeof(ScopedRegistrationAttribute);
         var singletonRegistration = typeof(SingletonRegiatrationAttribute);
         var transientRegistration = typeof(TransientRegistrationAttribute);
 
         var types = AppDomain.CurrentDomain.GetAssemblies()
-            .Select(assembly =>
-            {
-                var name = assembly.GetName().Name;
-                return namespaces.Any(ns => !string.IsNullOrEmpty(name) && name.StartsWith(ns)) ? assembly : null;
-            })
-            .SelectMany(assembly => assembly?.GetTypes() ?? Type.EmptyTypes)
+            .SelectMany(assembly => assembly.GetTypes())
             .Where(type =>
                 (type.IsDefined(scopedRegistration, false) || type.IsDefined(singletonRegistration, false) ||
                  type.IsDefined(transientRegistration, false)) && !type.IsInterface)
