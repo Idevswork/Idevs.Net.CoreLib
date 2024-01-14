@@ -1,6 +1,6 @@
+using System.Reflection;
 using Idevs.ComponentModel;
 using Idevs.Services;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Idevs.Extensions;
@@ -15,40 +15,46 @@ public static class ServicExtensions
         services.RegisterServices();
     }
 
-    public static void RegisterServices(this IServiceCollection services)
+    public static void RegisterServices(this IServiceCollection services, Assembly assembly)
     {
-        // Define types that need matching
         var scopedRegistration = typeof(ScopedRegistrationAttribute);
         var singletonRegistration = typeof(SingletonRegiatrationAttribute);
         var transientRegistration = typeof(TransientRegistrationAttribute);
 
-        var types = AppDomain.CurrentDomain.GetAssemblies()
-            .SelectMany(s => s.GetTypes())
-            .Where(p => p.IsDefined(scopedRegistration, false) || p.IsDefined(transientRegistration, false) ||
-                        p.IsDefined(singletonRegistration, false) && !p.IsInterface)
-            .Select(s => new
-            {
-                Service = s.GetInterface($"I{s.Name}"),
-                Implementation = s
-            })
-            .Where(x => x.Service != null);
+        var types = assembly.GetTypes()
+            .Where(type => type.IsClass && type.GetCustomAttributes(scopedRegistration, true).Length > 0)
+            .ToList();
 
         foreach (var type in types)
         {
-            if (type.Implementation.IsDefined(scopedRegistration, false) && type.Service is not null)
-            {
-                services.AddScoped(type.Service, type.Implementation);
-            }
+            services.AddScoped(type, serviceProvider => ActivatorUtilities.CreateInstance(serviceProvider, type));
+        }
 
-            if (type.Implementation.IsDefined(transientRegistration, false) && type.Service is not null)
-            {
-                services.AddTransient(type.Service, type.Implementation);
-            }
+        types = assembly.GetTypes()
+            .Where(type => type.IsClass && type.GetCustomAttributes(singletonRegistration, true).Length > 0)
+            .ToList();
+        
+        foreach (var type in types)
+        {
+            services.AddSingleton(type, serviceProvider => ActivatorUtilities.CreateInstance(serviceProvider, type));
+        }
 
-            if (type.Implementation.IsDefined(singletonRegistration, false) && type.Service is not null)
-            {
-                services.AddTransient(type.Service, type.Implementation);
-            }
+        types = assembly.GetTypes()
+            .Where(type => type.IsClass && type.GetCustomAttributes(transientRegistration, true).Length > 0)
+            .ToList();
+
+        foreach (var type in types)
+        {
+            services.AddTransient(type, serviceProvider => ActivatorUtilities.CreateInstance(serviceProvider, type));
+        }
+    }
+
+    public static void RegisterServices(this IServiceCollection services)
+    {
+        var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+        foreach (var assembly in assemblies)
+        {
+            services.RegisterServices(assembly);
         }
     }
 }
