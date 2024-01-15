@@ -1,4 +1,5 @@
 using System.Data;
+using Microsoft.Extensions.DependencyInjection;
 using Serenity;
 using Serenity.Abstractions;
 using Serenity.Data;
@@ -7,13 +8,12 @@ namespace Idevs.Repositories;
 
 public class RepositoryBase
 {
-    protected ISqlConnections SqlConnections { get; }
-    protected IDbConnection Connection => SqlConnections.NewByKey("Default");
 #if NET6_0
     protected IExceptionLogger ExceptionLog { get; }
 #else
-    protected Microsoft.Extensions.Logging.ILogger ExceptionLog {get;}
+    protected Microsoft.Extensions.Logging.ILogger ExceptionLog { get; }
 #endif
+    protected ISqlConnections SqlConnections { get; }
     protected ITextLocalizer Localizer { get; }
 
     protected SqlQuery SqlQuery => new SqlQuery().Dialect(SqlServer2012Dialect.Instance);
@@ -31,13 +31,14 @@ public class RepositoryBase
         Localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
     }
 #else
-    public RepositoryBase(ISqlConnections sqlConnections, Microsoft.Extensions.Logging.ILogger exceptionLogger, ITextLocalizer localizer)
+    public RepositoryBase(IServiceProvider serviceProvider)
     {
-        SqlConnections = sqlConnections
-                         ?? throw new ArgumentNullException(nameof(sqlConnections));
-        ExceptionLog = exceptionLogger
-                       ?? throw new ArgumentNullException(nameof(exceptionLogger));
-        Localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
+        var scoped = serviceProvider.CreateScope();
+        SqlConnections = scoped.ServiceProvider.GetRequiredService<ISqlConnections>();
+        ExceptionLog = scoped.ServiceProvider.GetRequiredService<Microsoft.Extensions.Logging.ILogger>();
+        Localizer = scoped.ServiceProvider.GetRequiredService<ITextLocalizer>();
     }
 #endif
+
+    protected IDbConnection Connection => SqlConnections.NewByKey("Default");
 }

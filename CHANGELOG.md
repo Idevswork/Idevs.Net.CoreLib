@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.80 (2024-01-15)
+
+### Fixed
+
+- Fixed RepositoryBase for DotNet 8
+
 ## 0.0.79 (2024-01-14)
 
 ### Changes
