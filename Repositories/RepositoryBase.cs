@@ -35,7 +35,7 @@ public class RepositoryBase
     {
         var scoped = serviceProvider.CreateScope();
         SqlConnections = scoped.ServiceProvider.GetRequiredService<ISqlConnections>();
-        ExceptionLog = scoped.ServiceProvider.GetRequiredService<Microsoft.Extensions.Logging.ILogger>();
+        // ExceptionLog = scoped.ServiceProvider.GetRequiredService<Microsoft.Extensions.Logging.ILogger>();
         Localizer = scoped.ServiceProvider.GetRequiredService<ITextLocalizer>();
     }
 #endif

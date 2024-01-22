@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.81 (2024-01-23)
+
+### Try
+
+- Remove get required service for ExceptionLog for DotNet 8
+
 ## 0.0.80 (2024-01-15)
 
 ### Fixed
