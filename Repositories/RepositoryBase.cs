@@ -1,18 +1,16 @@
 using System.Data;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Serenity;
 using Serenity.Abstractions;
 using Serenity.Data;
 
 namespace Idevs.Repositories;
 
+#if NET6_0
 public class RepositoryBase
 {
-#if NET6_0
     protected IExceptionLogger ExceptionLog { get; }
-#else
-    protected Microsoft.Extensions.Logging.ILogger ExceptionLog { get; }
-#endif
     protected ISqlConnections SqlConnections { get; }
     protected ITextLocalizer Localizer { get; }
 
@@ -21,7 +19,6 @@ public class RepositoryBase
     protected SqlUpdate SqlUpdate(string tableName) => new SqlUpdate(tableName).Dialect(SqlServer2012Dialect.Instance);
     protected SqlDelete SqlDelete(string tableName) => new SqlDelete(tableName);
 
-#if NET6_0
     public RepositoryBase(ISqlConnections sqlConnections, IExceptionLogger exceptionLogger, ITextLocalizer localizer)
     {
         SqlConnections = sqlConnections
@@ -31,11 +28,22 @@ public class RepositoryBase
         Localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
     }
 #else
-    public RepositoryBase(IServiceProvider serviceProvider)
+public class RepositoryBase<T>
+{
+    protected Microsoft.Extensions.Logging.ILogger<T> ExceptionLog { get; }
+    protected ISqlConnections SqlConnections { get; }
+    protected ITextLocalizer Localizer { get; }
+
+    protected SqlQuery SqlQuery => new SqlQuery().Dialect(SqlServer2012Dialect.Instance);
+    protected SqlInsert SqlInsert(string tableName) => new SqlInsert(tableName).Dialect(SqlServer2012Dialect.Instance);
+    protected SqlUpdate SqlUpdate(string tableName) => new SqlUpdate(tableName).Dialect(SqlServer2012Dialect.Instance);
+    protected SqlDelete SqlDelete(string tableName) => new SqlDelete(tableName);
+
+    public RepositoryBase(IServiceProvider serviceProvider, ILogger<T> logger)
     {
         var scoped = serviceProvider.CreateScope();
         SqlConnections = scoped.ServiceProvider.GetRequiredService<ISqlConnections>();
-        // ExceptionLog = scoped.ServiceProvider.GetRequiredService<Microsoft.Extensions.Logging.ILogger>();
+        ExceptionLog = logger;
         Localizer = scoped.ServiceProvider.GetRequiredService<ITextLocalizer>();
     }
 #endif

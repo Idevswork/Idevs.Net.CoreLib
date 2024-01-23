@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.82 (2024-01-23)
+
+### Changes
+
+- Add different ExceptionLog for .Net6 and .Net8
+
 ## 0.0.81 (2024-01-23)
 
 ### Try
