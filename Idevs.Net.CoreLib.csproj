@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>Idevs.Net.CoreLib</PackageId>
-    <Version>0.0.82</Version>
+    <Version>0.0.83</Version>
     <Authors>Sarawut Phaekuntod</Authors>
     <Product>Idevs.Net.CoreLib</Product>
     <PackageTags>Idevs; CoreLib; Serenity; Extended</PackageTags>
@@ -53,13 +53,14 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.1" />
-    <PackageReference Include="Serenity.Assets" Version="8.1.5" />
-    <PackageReference Include="Serenity.Extensions" Version="8.1.5" />
-    <PackageReference Include="Serenity.Net.Core" Version="8.1.5" />
-    <PackageReference Include="Serenity.Net.Data" Version="8.1.5" />
-    <PackageReference Include="Serenity.Net.Entity" Version="8.1.5" />
-    <PackageReference Include="Serenity.Net.Services" Version="8.1.5" />
-    <PackageReference Include="Serenity.Corelib" Version="8.1.5" />
-    <PackageReference Include="Serenity.Net.Web" Version="8.1.5" />
+    <PackageReference Include="Serenity.Assets" Version="8.2.2" />
+    <PackageReference Include="Serenity.Extensions" Version="8.2.2" />
+    <PackageReference Include="Serenity.Net.Core" Version="8.2.2" />
+    <PackageReference Include="Serenity.Net.Data" Version="8.2.2" />
+    <PackageReference Include="Serenity.Net.Entity" Version="8.2.2" />
+    <PackageReference Include="Serenity.Net.Services" Version="8.2.2" />
+    <PackageReference Include="Serenity.Corelib" Version="8.2.2" />
+    <PackageReference Include="Serenity.Net.Web" Version="8.2.2" />
+    <PackageReference Include="Serenity.SleekGrid" Version="1.7.0" />
   </ItemGroup>
 </Project>

@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.83 (2024-01-27)
+
+### Add
+
+- Add EnumEditorAttribute that support EnumKey
+
+### Updates
+
+- Update Serenity package to version 8.2.2 for DotNet 8
+
 ## 0.0.82 (2024-01-23)
 
 ### Changes
