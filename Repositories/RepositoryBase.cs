@@ -30,6 +30,7 @@ public class RepositoryBase
 #else
 public class RepositoryBase<T>
 {
+    protected IServiceProvider ServiceProvider { get; }
     protected Microsoft.Extensions.Logging.ILogger<T> ExceptionLog { get; }
     protected ISqlConnections SqlConnections { get; }
     protected ITextLocalizer Localizer { get; }
@@ -41,6 +42,7 @@ public class RepositoryBase<T>
 
     public RepositoryBase(IServiceProvider serviceProvider, ILogger<T> logger)
     {
+        ServiceProvider = serviceProvider;
         var scoped = serviceProvider.CreateScope();
         SqlConnections = scoped.ServiceProvider.GetRequiredService<ISqlConnections>();
         ExceptionLog = logger;

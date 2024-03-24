@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.0.84 (2024-03-24)
+
+### Updates
+
+- Update library version
+- Update RepositoryBase to share ServiceProvider on DotNet 8
+
 ## 0.0.83 (2024-01-27)
 
 ### Add
