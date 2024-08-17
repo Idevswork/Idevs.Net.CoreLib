@@ -35,9 +35,9 @@ public class RepositoryBase<T>
     protected ISqlConnections SqlConnections { get; }
     protected ITextLocalizer Localizer { get; }
 
-    protected SqlQuery SqlQuery => new SqlQuery().Dialect(SqlServer2012Dialect.Instance);
-    protected SqlInsert SqlInsert(string tableName) => new SqlInsert(tableName).Dialect(SqlServer2012Dialect.Instance);
-    protected SqlUpdate SqlUpdate(string tableName) => new SqlUpdate(tableName).Dialect(SqlServer2012Dialect.Instance);
+    protected SqlQuery SqlQuery => new SqlQuery();
+    protected SqlInsert SqlInsert(string tableName) => new SqlInsert(tableName);
+    protected SqlUpdate SqlUpdate(string tableName) => new SqlUpdate(tableName);
     protected SqlDelete SqlDelete(string tableName) => new SqlDelete(tableName);
 
     public RepositoryBase(IServiceProvider serviceProvider, ILogger<T> logger)

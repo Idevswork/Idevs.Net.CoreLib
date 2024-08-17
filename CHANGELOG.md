@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.0.86 (2024-08-17)
+
+### Fixed
+
+- Fixed RegisterService throw System.Reflection.ReflectionTypeLoadException with 'SqlGuidCaster'
+
+## 0.0.85 (2024-08-17)
+
+### Updates
+
+- Update library version
+- Update RepositoryBase, move default dialect instance on DotNet 8
+
 ## 0.0.84 (2024-03-24)
 
 ### Updates

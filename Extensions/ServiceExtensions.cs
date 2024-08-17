@@ -1,3 +1,4 @@
+using System.Reflection;
 using Idevs.ComponentModel;
 using Idevs.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,7 +22,18 @@ public static class ServicExtensions
         var transientRegistration = typeof(TransientRegistrationAttribute);
 
         var types = AppDomain.CurrentDomain.GetAssemblies()
-            .SelectMany(assembly => assembly.GetTypes())
+            .Where(assembly => !(assembly.FullName ?? string.Empty).StartsWith("System.Data.SqlClient"))
+            .SelectMany(assembly =>
+            {
+                try
+                {
+                    return assembly.GetTypes();
+                }
+                catch (ReflectionTypeLoadException ex)
+                {
+                    return ex.Types.Where(t => t != null);
+                }
+            })
             .Where(type =>
                 (type.IsDefined(scopedRegistration, false) || type.IsDefined(singletonRegistration, false) ||
                  type.IsDefined(transientRegistration, false)) && !type.IsInterface)
