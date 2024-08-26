@@ -1,9 +1,15 @@
 # Changelog
 
+## 0.0.88 (2024-08-26)
+
+### Update
+
+- Update libraries
+
 ## 0.0.87 (2024-08-17)
 
 ### Update
-- 
+ 
 - Add browserPath to PdfExporter.Export to use existing Chrome installed instead of download everytime.
 
 ## 0.0.86 (2024-08-17)
