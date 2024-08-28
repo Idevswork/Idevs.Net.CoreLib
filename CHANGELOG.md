@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.90 (2024-08-29)
+
+### Add
+
+- Add CreatePdfViewResult to PdfExporter for direct open in browser instead of download first
+
 ## 0.0.89 (2024-08-28)
 
 ### Update

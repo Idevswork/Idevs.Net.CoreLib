@@ -1,4 +1,5 @@
 using System.Globalization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Idevs.Models;
@@ -30,12 +31,23 @@ public class IdevsContentResult
     public static FileContentResult Create(byte[] data, IdevsContentType contentType, string downloadName)
     {
         var dataType = contentType == IdevsContentType.Excel
-        ? "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        : "application/octet-stream";
+            ? "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            : "application/octet-stream";
         var result = new FileContentResult(data, dataType)
         {
-            FileDownloadName = downloadName ?? GetDownloadName(contentType)
+            FileDownloadName = downloadName ?? GetDownloadName(contentType),
         };
+        return result;
+    }
+
+    public static IActionResult CreatePdfViewResult(HttpResponse response, byte[] data, string downloadName)
+    {
+        var fileName = downloadName ?? GetDownloadName(IdevsContentType.PDF);
+        var result = new FileContentResult(data, "application/pdf")
+        {
+            FileDownloadName = fileName
+        };
+        response.Headers.Add("Content-Disposition", "inline; filename=" + fileName);
         return result;
     }
 
