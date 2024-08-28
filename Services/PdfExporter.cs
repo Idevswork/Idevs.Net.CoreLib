@@ -1,4 +1,5 @@
 using PuppeteerSharp;
+using PuppeteerSharp.BrowserData;
 
 namespace Idevs.Services;
 
@@ -27,7 +28,9 @@ public class IdevsPdfExporter : IIdevsPdfExporter
     {
         var launchOption = new LaunchOptions
         {
-            Headless = true
+            Headless = true,
+            IgnoredDefaultArgs = new[] { "--disable-extensions" },
+            Args = new[] { "--no-sandbox" },
         };
 
         if (string.IsNullOrEmpty(browserPath))
