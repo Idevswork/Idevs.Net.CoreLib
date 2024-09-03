@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.92 (2024-09-03)
+
+### Add
+
+- Add ContentResponse to support string return response
+
 ## 0.0.91 (2024-08-29)
 
 ### Changes
