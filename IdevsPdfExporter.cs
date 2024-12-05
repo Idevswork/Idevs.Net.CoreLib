@@ -1,7 +1,6 @@
 using PuppeteerSharp;
-using PuppeteerSharp.BrowserData;
 
-namespace Idevs.Services;
+namespace Idevs;
 
 public interface IIdevsPdfExporter
 {
@@ -29,8 +28,8 @@ public class IdevsPdfExporter : IIdevsPdfExporter
         var launchOption = new LaunchOptions
         {
             Headless = true,
-            IgnoredDefaultArgs = new[] { "--disable-extensions" },
-            Args = new[] { "--no-sandbox" },
+            IgnoredDefaultArgs = ["--disable-extensions"],
+            Args = ["--no-sandbox"],
         };
 
         if (string.IsNullOrEmpty(browserPath))
@@ -45,7 +44,7 @@ public class IdevsPdfExporter : IIdevsPdfExporter
 
         await using var browser = await Puppeteer.LaunchAsync(launchOption);
         await using var page = await browser.NewPageAsync();
-        await page.SetContentAsync(html, new NavigationOptions { WaitUntil = new[] { WaitUntilNavigation. Networkidle0 }});
+        await page.SetContentAsync(html, new NavigationOptions { WaitUntil = [WaitUntilNavigation. Networkidle0] });
         return await page.PdfDataAsync(new PdfOptions
         {
             PreferCSSPageSize = true,

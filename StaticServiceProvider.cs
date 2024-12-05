@@ -1,4 +1,4 @@
-namespace Idevs.Services;
+namespace Idevs;
 
 public static class StaticServiceProvider
 {

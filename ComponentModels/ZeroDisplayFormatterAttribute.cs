@@ -2,13 +2,9 @@ using Serenity.ComponentModel;
 
 namespace Idevs.ComponentModel;
 
-public partial class ZeroDisplayFormatterAttribute : CustomFormatterAttribute
+public partial class ZeroDisplayFormatterAttribute() : CustomFormatterAttribute(Key)
 {
-    public const string Key = "Idevs.ZeroDisplayFormatter";
-
-    public ZeroDisplayFormatterAttribute() : base(Key)
-    {
-    }
+    private const string Key = "Idevs.ZeroDisplayFormatter";
 
     public string DisplayText
     {

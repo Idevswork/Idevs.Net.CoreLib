@@ -1,5 +1,4 @@
 namespace Idevs.ComponentModel;
 
-public class SingletonRegiatrationAttribute : Attribute
-{
-}
+[AttributeUsage(AttributeTargets.Class)]
+public class SingletonRegiatrationAttribute : Attribute;

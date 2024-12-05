@@ -2,14 +2,9 @@ using Serenity.ComponentModel;
 
 namespace Idevs.ComponentModel;
 
-public partial class CheckboxButtonEditorAttribute : CustomEditorAttribute
+public partial class CheckboxButtonEditorAttribute() : CustomEditorAttribute(Key)
 {
-    public const string Key = "CheckboxButtonEditor";
-
-    public CheckboxButtonEditorAttribute()
-        : base(Key)
-    {
-    }
+    private const string Key = "CheckboxButtonEditor";
 
     public string EnumKey
     {

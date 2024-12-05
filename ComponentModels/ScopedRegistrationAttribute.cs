@@ -1,5 +1,4 @@
 namespace Idevs.ComponentModel;
 
-public class ScopedRegistrationAttribute : Attribute
-{
-}
+[AttributeUsage(AttributeTargets.Class)]
+public class ScopedRegistrationAttribute : Attribute;

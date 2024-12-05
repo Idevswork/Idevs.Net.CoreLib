@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.0 (2024-12-05)
+
+### Breaking Changes
+
+- Support only dotnet 8 (if you want to use dotnet 6, please use version 0.0.92)
+- Start using Serene 8.8.1
+- Refactor project structure, namespace, and class name
+- Remove unnecessary code
+
 ## 0.0.92 (2024-09-03)
 
 ### Add
@@ -33,7 +42,7 @@
 ## 0.0.87 (2024-08-17)
 
 ### Update
- 
+
 - Add browserPath to PdfExporter.Export to use existing Chrome installed instead of download everytime.
 
 ## 0.0.86 (2024-08-17)
@@ -597,23 +606,23 @@ First published on nuget.org.
 
 - ComponentModel
 
-  - DisplayDateFormatAttribute with default format dd/MM/yyyy
-  - DisplayDateTimeFormatAttribute with default format dd/MM/yyyy HH:mm:ss or dd/MM/yyyy HH:mm on your choice
-  - DisplayTimeFormatAttribute with default format HH:mm:ss or HH:mm:ss on your choice
-  - ColumnWidthAttribute extends FormWidthAttribute to support bootstrap's col-xxl
-  - FullColumnWidthAttribute inherits from ColumnWidthAttribute
-  - HalfColumnWidthAttribute inherits from ColumnWidthAttribute
-  - CheckboxFormatterAttribute
-  - ZeroToBlankFormatterAttribute
+    - DisplayDateFormatAttribute with default format dd/MM/yyyy
+    - DisplayDateTimeFormatAttribute with default format dd/MM/yyyy HH:mm:ss or dd/MM/yyyy HH:mm on your choice
+    - DisplayTimeFormatAttribute with default format HH:mm:ss or HH:mm:ss on your choice
+    - ColumnWidthAttribute extends FormWidthAttribute to support bootstrap's col-xxl
+    - FullColumnWidthAttribute inherits from ColumnWidthAttribute
+    - HalfColumnWidthAttribute inherits from ColumnWidthAttribute
+    - CheckboxFormatterAttribute
+    - ZeroToBlankFormatterAttribute
 
 - Extensions
 
-  - ControllerExtensions
-  - EntityQueryExtensions
-  - NumberExtensions
-  - TextLocalizerExtensions
+    - ControllerExtensions
+    - EntityQueryExtensions
+    - NumberExtensions
+    - TextLocalizerExtensions
 
 - Content/css
-  - idevs.dropdown.css
-  - idevs.font.css
-  - idevs.print.css
+    - idevs.dropdown.css
+    - idevs.font.css
+    - idevs.print.css

@@ -8,26 +8,15 @@ using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
 
-namespace Idevs.Services;
+namespace Idevs;
 
 public interface IViewPageRenderer
 {
     Task<string> RenderViewAsync<TModel>(string viewName, TModel model);
 }
 
-public class ViewPageRenderer : IViewPageRenderer
+public class ViewPageRenderer(IRazorViewEngine viewEngine, ITempDataProvider tempDataProvider, IServiceProvider serviceProvider) : IViewPageRenderer
 {
-    private IRazorViewEngine ViewEngine { get; }
-    private ITempDataProvider TempDataProvider { get; }
-    private IServiceProvider ServiceProvider { get; }
-
-    public ViewPageRenderer(IRazorViewEngine viewEngine, ITempDataProvider tempDataProvider, IServiceProvider serviceProvider)
-    {
-        ViewEngine = viewEngine;
-        TempDataProvider = tempDataProvider;
-        ServiceProvider = serviceProvider;
-    }
-
     public async Task<string> RenderViewAsync<TModel>(string viewName, TModel model)
     {
         var actionContext = GetActionContext();
@@ -45,7 +34,7 @@ public class ViewPageRenderer : IViewPageRenderer
             },
             new TempDataDictionary(
                 actionContext.HttpContext,
-                TempDataProvider),
+                tempDataProvider),
             output,
             new HtmlHelperOptions()
         );
@@ -56,13 +45,13 @@ public class ViewPageRenderer : IViewPageRenderer
 
     private IView FindView(ActionContext actionContext, string viewName)
     {
-        var getViewResult = ViewEngine.GetView(null, viewName, false);
+        var getViewResult = viewEngine.GetView(null, viewName, false);
         if (getViewResult.Success)
         {
             return getViewResult.View;
         }
 
-        var findViewResult = ViewEngine.FindView(actionContext, viewName, false);
+        var findViewResult = viewEngine.FindView(actionContext, viewName, false);
         if (findViewResult.Success)
         {
             return findViewResult.View;
@@ -80,7 +69,7 @@ public class ViewPageRenderer : IViewPageRenderer
     {
         var httpContext = new DefaultHttpContext
         {
-            RequestServices = ServiceProvider
+            RequestServices = serviceProvider
         };
 
         return new ActionContext(httpContext, new RouteData(), new ActionDescriptor());

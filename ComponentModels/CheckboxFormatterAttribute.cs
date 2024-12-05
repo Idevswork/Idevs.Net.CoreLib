@@ -2,13 +2,9 @@ using Serenity.ComponentModel;
 
 namespace Idevs.ComponentModel;
 
-public partial class CheckboxFormatterAttribute : CustomFormatterAttribute
+public partial class CheckboxFormatterAttribute() : CustomFormatterAttribute(Key)
 {
-    public const string Key = "Idevs.CheckboxFormatter";
-
-    public CheckboxFormatterAttribute() : base(Key)
-    {
-    }
+    private const string Key = "Idevs.CheckboxFormatter";
 
     public string CssClass
     {

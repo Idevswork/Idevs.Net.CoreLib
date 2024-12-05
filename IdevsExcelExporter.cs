@@ -5,7 +5,7 @@ using Idevs.Models;
 using Serenity.Data;
 using Serenity.Reporting;
 
-namespace Idevs.Services;
+namespace Idevs;
 
 public interface IIdevsExcelExporter
 {
@@ -38,15 +38,9 @@ public interface IIdevsExcelExporter
     );
 }
 
-public class IdevsExcelExporter : IIdevsExcelExporter
+public class IdevsExcelExporter(IServiceProvider serviceProvider) : IIdevsExcelExporter
 {
-    private readonly IServiceProvider _serviceProvider;
-
-    public IdevsExcelExporter(IServiceProvider serviceProvider)
-    {
-        _serviceProvider =
-            serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
-    }
+    private readonly IServiceProvider _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
 
     // Very basic
     public byte[] Export(IEnumerable data, IEnumerable<ReportColumn> columns)

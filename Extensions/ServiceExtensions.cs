@@ -1,13 +1,12 @@
 using System.Reflection;
 using Idevs.ComponentModel;
-using Idevs.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Idevs.Extensions;
 
-public static class ServicExtensions
+public static class ServiceExtensions
 {
-    public static IServiceCollection AddIdevsCoreLibServices(this IServiceCollection services) {
+    public static IServiceCollection AddIdevsCorelibServices(this IServiceCollection services) {
         services.AddScoped<IViewPageRenderer, ViewPageRenderer>();
         services.AddScoped<IIdevsPdfExporter, IdevsPdfExporter>();
         services.AddScoped<IIdevsExcelExporter, IdevsExcelExporter>();
@@ -23,6 +22,8 @@ public static class ServicExtensions
 
         var types = AppDomain.CurrentDomain.GetAssemblies()
             .Where(assembly => !(assembly.FullName ?? string.Empty).StartsWith("System.Data.SqlClient"))
+            .Where(assembly => !(assembly.FullName ?? string.Empty).StartsWith("MySql.Data"))
+            .Where(assembly => !(assembly.FullName ?? string.Empty).StartsWith("Npgsql"))
             .SelectMany(assembly =>
             {
                 try

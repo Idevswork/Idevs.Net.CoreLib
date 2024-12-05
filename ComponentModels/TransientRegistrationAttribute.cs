@@ -1,5 +1,4 @@
 namespace Idevs.ComponentModel;
 
-public class TransientRegistrationAttribute : Attribute
-{
-}
+[AttributeUsage(AttributeTargets.Class)]
+public class TransientRegistrationAttribute : Attribute;

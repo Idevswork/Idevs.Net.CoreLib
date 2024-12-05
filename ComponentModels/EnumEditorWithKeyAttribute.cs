@@ -11,7 +11,7 @@ public partial class EnumEditorWithKeyAttribute : CustomEditorAttribute
     /// <summary>
     /// Editor type key
     /// </summary>
-    public const string Key = "Enum";
+    private const string Key = "Enum";
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CsiEnumEditorAttribute"/> class.
