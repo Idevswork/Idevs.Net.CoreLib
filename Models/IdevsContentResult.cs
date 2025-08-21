@@ -28,7 +28,7 @@ public class IdevsContentResult
     /// <param name="data">Data containing Pdf file bytes</param>
     /// <param name="contentType">Content type</param>
     /// <param name="downloadName">Optional download name</param>
-    public static FileContentResult Create(byte[] data, IdevsContentType contentType, string downloadName)
+    public static FileContentResult Create(byte[] data, IdevsContentType contentType, string? downloadName)
     {
         var dataType = contentType == IdevsContentType.Excel
             ? "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -51,6 +51,18 @@ public class IdevsContentResult
         response.Headers.Clear();
         response.Headers.Add("Content-Disposition", "inline; filename=" + fileName);
         return result;
+    }
+
+    public static IdevsContentResponse CreateResponse(byte[] data, IdevsContentType contentType, string? downloadName = null)
+    {
+        return new IdevsContentResponse
+        {
+            Content = Convert.ToBase64String(data),
+            ContentType = contentType == IdevsContentType.Excel
+                ? "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                : "application/octet-stream",
+            DownloadName = downloadName ?? GetDownloadName(contentType)
+        };
     }
 
     private static string GetDownloadName(IdevsContentType contentType)

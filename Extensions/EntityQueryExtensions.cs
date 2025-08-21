@@ -6,9 +6,12 @@ namespace Idevs.Extensions;
 public static class EntityQueryExtensions
 {
     /// <summary>
-    ///   Sets all field values in a row with auto named parameters (field name prefixed with '@').</summary>
+    ///   Sets all field values in a row with auto-named parameters (field name prefixed with '@').</summary>
     /// <param field="row">
     ///   The row with modified field values. Must be in TrackAssignments mode, or an exception is raised.</param>
+    /// <param name="self"></param>
+    /// <param name="row"></param>
+    /// <param name="exclude">Fields to exclude from set values</param>
     /// <returns>
     ///   Object itself.</returns>
     public static T Set<T>(this T self, IRow row, params Field[] exclude) where T : ISetFieldByStatement

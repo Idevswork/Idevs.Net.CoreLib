@@ -1,5 +1,64 @@
 # Changelog
 
+## 0.2.0 (2025-08-16)
+
+### Breaking Changes
+
+- **Autofac Integration**: Introduced Autofac as the primary dependency injection container
+- **ServiceExtensions Modernization**: Replaced traditional ServiceExtensions with Autofac modules
+- **Enhanced Registration**: Improved service registration with better lifetime management
+
+### Added
+
+- `IdevsModule`: New Autofac module for automatic service registration
+- `UseIdevsAutofac()`: Extension method for WebApplicationBuilder to configure Autofac
+- `StaticServiceLocator`: New thread-safe static service locator with Autofac support
+- `UseIdevsStaticServiceLocator()`: Extension method for WebApplication to initialize static service resolution
+- **Enhanced Registration Attributes**: New standard attributes (`[Scoped]`, `[Singleton]`, `[Transient]`) with advanced features
+- **Named Service Registration**: Support for service keys in Autofac (e.g., `[Scoped(ServiceKey = "mykey")]`)
+- **Explicit Service Types**: Ability to specify exact service interfaces (`[Scoped(ServiceType = typeof(IMyService))]`)
+- **Self-Registration**: Option to register services without interfaces (`[Scoped(AllowSelfRegistration = true)]`)
+- Multiple Autofac configuration overloads for advanced scenarios
+- Support for custom container configuration
+- Better performance through Autofac's optimized dependency resolution
+- Static service resolution with scoping support
+- Automatic container type detection (Autofac vs traditional DI)
+
+### Changed
+
+- **Service Registration**: `AddIdevsCorelibServices()` now supports both Autofac and fallback scenarios
+- **Lifetime Management**: Improved service lifetime scoping with Autofac
+- **Module-Based Architecture**: Services organized into logical modules
+- **Backward Compatibility**: Legacy ServiceExtensions still supported
+
+### Deprecated
+
+- `RegisterServices()`: Marked as obsolete, functionality merged into `AddIdevsCorelibServices()`
+
+### Migration Guide
+
+**Recommended (New Autofac approach):**
+```csharp
+// Replace this
+builder.Services.AddIdevsCorelibServices();
+
+// With this
+builder.UseIdevsAutofac();
+```
+
+**Legacy Support:**
+```csharp
+// This still works for backward compatibility
+builder.Services.AddIdevsCorelibServices();
+```
+
+## 0.1.1 (2025-07-21)
+
+### Refactor
+
+- Update to use Serene 8.8.6
+- Refactor all
+
 ## 0.1.0 (2024-12-05)
 
 ### Breaking Changes

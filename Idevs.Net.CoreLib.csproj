@@ -4,8 +4,8 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <PackageId>Idevs.Net.Corelib</PackageId>
-    <Version>0.1.0</Version>
+    <PackageId>Idevs.Net.CoreLib</PackageId>
+    <Version>0.2.0</Version>
     <Authors>Sarawut Phaekuntod</Authors>
     <Product>Idevs.Net.CoreLib</Product>
     <PackageTags>Idevs; CoreLib; Serenity; Extended</PackageTags>
@@ -29,21 +29,24 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="ClosedXML" Version="0.104.2" />
+    <PackageReference Include="Autofac" Version="8.1.1" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="10.0.0" />
+    <PackageReference Include="Autofac.Extras.AttributeMetadata" Version="6.0.0" />
+    <PackageReference Include="ClosedXML" Version="0.105.0" />
     <PackageReference Include="FastMember" Version="1.5.0" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
-    <PackageReference Include="PuppeteerSharp" Version="20.0.5" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.2" />
+    <PackageReference Include="PuppeteerSharp" Version="20.2.2" />
     <PackageReference Include="Ardalis.GuardClauses" Version="5.0.0" />
-    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.7.1">
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.8.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.11" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.18" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.18" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Serenity.Net.Services" Version="8.8.1" />
+    <PackageReference Include="Serenity.Net.Services" Version="8.8.6" />
   </ItemGroup>
 
 </Project>

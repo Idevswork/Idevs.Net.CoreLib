@@ -10,11 +10,24 @@ using Microsoft.AspNetCore.Routing;
 
 namespace Idevs;
 
+/// <summary>
+/// Provides functionality to render Razor views programmatically
+/// </summary>
 public interface IViewPageRenderer
 {
+    /// <summary>
+    /// Renders a Razor view to string asynchronously
+    /// </summary>
+    /// <typeparam name="TModel">Type of the model to pass to the view</typeparam>
+    /// <param name="viewName">Name or path of the view to render</param>
+    /// <param name="model">Model data for the view</param>
+    /// <returns>Rendered HTML as string</returns>
     Task<string> RenderViewAsync<TModel>(string viewName, TModel model);
 }
 
+/// <summary>
+/// Implementation of view rendering functionality using ASP.NET Core Razor engine
+/// </summary>
 public class ViewPageRenderer(IRazorViewEngine viewEngine, ITempDataProvider tempDataProvider, IServiceProvider serviceProvider) : IViewPageRenderer
 {
     public async Task<string> RenderViewAsync<TModel>(string viewName, TModel model)

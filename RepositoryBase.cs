@@ -6,6 +6,10 @@ using Serenity.Data;
 
 namespace Idevs;
 
+/// <summary>
+/// Base class for repository pattern implementation with Serenity Framework integration
+/// </summary>
+/// <typeparam name="T">Type used for logging context</typeparam>
 public class RepositoryBase<T>
 {
     protected IServiceProvider ServiceProvider { get; }
@@ -28,4 +32,5 @@ public class RepositoryBase<T>
     }
 
     protected IDbConnection Connection => SqlConnections.NewByKey("Default");
+    protected ISqlDialect Dialect => Connection.GetDialect();
 }

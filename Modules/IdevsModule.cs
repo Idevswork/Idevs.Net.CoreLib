@@ -1,81 +1,52 @@
 using System.Reflection;
 using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using Idevs.ComponentModel;
 using Idevs.ComponentModels.Standard;
-using Idevs.Modules;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
-namespace Idevs.Extensions;
+namespace Idevs.Modules;
 
 /// <summary>
-/// Extension methods for configuring Idevs.Net.CoreLib services with Autofac
+/// Autofac module for registering Idevs.Net.CoreLib services
 /// </summary>
-public static class ServiceExtensions
+public class IdevsModule : Autofac.Module
 {
     /// <summary>
-    /// Configures the host to use Autofac as the service provider factory and registers Idevs services
-    /// </summary>
-    /// <param name="hostBuilder">The host builder</param>
-    /// <returns>The updated host builder</returns>
-    public static IHostBuilder UseIdevsAutofac(this IHostBuilder hostBuilder)
-    {
-        return hostBuilder
-            .UseServiceProviderFactory(new AutofacServiceProviderFactory())
-            .ConfigureContainer<ContainerBuilder>(builder =>
-            {
-                builder.RegisterModule<IdevsModule>();
-            });
-    }
-
-    /// <summary>
-    /// Adds Idevs CoreLib services to the service collection (fallback for non-Autofac scenarios)
-    /// </summary>
-    /// <param name="services">The service collection</param>
-    /// <returns>The updated service collection</returns>
-    public static IServiceCollection AddIdevsCorelibServices(this IServiceCollection services)
-    {
-        // Register core services directly for non-Autofac scenarios
-        services.AddScoped<IViewPageRenderer, ViewPageRenderer>();
-        services.AddScoped<IIdevsPdfExporter, IdevsPdfExporter>();
-        services.AddScoped<IIdevsExcelExporter, IdevsExcelExporter>();
-
-        // Register attribute-based services
-        RegisterAttributeBasedServices(services);
-        
-        return services;
-    }
-
-    /// <summary>
-    /// Registers the Idevs Autofac module to an existing ContainerBuilder
+    /// Loads the module and registers all Idevs services
     /// </summary>
     /// <param name="builder">The container builder</param>
-    /// <returns>The updated container builder</returns>
-    public static ContainerBuilder RegisterIdevsModule(this ContainerBuilder builder)
+    protected override void Load(ContainerBuilder builder)
     {
-        builder.RegisterModule<IdevsModule>();
-        return builder;
+        RegisterCoreServices(builder);
+        RegisterAttributeBasedServices(builder);
     }
 
     /// <summary>
-    /// Registers services decorated with registration attributes (fallback for non-Autofac scenarios)
-    /// This method is maintained for backward compatibility
+    /// Registers the core Idevs services
     /// </summary>
-    /// <param name="services">The service collection</param>
-    /// <returns>The updated service collection</returns>
-    [Obsolete("Use AddIdevsCorelibServices() instead, which includes attribute-based registration")]
-    public static IServiceCollection RegisterServices(this IServiceCollection services)
+    /// <param name="builder">The container builder</param>
+    private static void RegisterCoreServices(ContainerBuilder builder)
     {
-        return AddIdevsCorelibServices(services);
+        // Register core Idevs services
+        builder.RegisterType<ViewPageRenderer>()
+            .As<IViewPageRenderer>()
+            .InstancePerLifetimeScope();
+
+        builder.RegisterType<IdevsPdfExporter>()
+            .As<IIdevsPdfExporter>()
+            .InstancePerLifetimeScope();
+
+        builder.RegisterType<IdevsExcelExporter>()
+            .As<IIdevsExcelExporter>()
+            .InstancePerLifetimeScope();
     }
 
     /// <summary>
-    /// Registers services decorated with registration attributes using reflection (for non-Autofac scenarios)
-    /// Supports both legacy attributes and standard attributes
+    /// Registers services decorated with registration attributes using reflection
+    /// Supports both legacy attributes (ScopedRegistrationAttribute, etc.) and standard attributes (ScopedAttribute, etc.)
     /// </summary>
-    /// <param name="services">The service collection</param>
-    private static void RegisterAttributeBasedServices(IServiceCollection services)
+    /// <param name="builder">The container builder</param>
+    private static void RegisterAttributeBasedServices(ContainerBuilder builder)
     {
         // Legacy attribute types
         var legacyScopedRegistration = typeof(ScopedRegistrationAttribute);
@@ -119,20 +90,20 @@ public static class ServiceExtensions
         foreach (var implementationType in types)
         {
             // Handle legacy attributes first (for backward compatibility)
-            if (HandleLegacyAttributesForServiceCollection(services, implementationType, legacyScopedRegistration, legacySingletonRegistration, legacyTransientRegistration))
+            if (HandleLegacyAttributes(builder, implementationType, legacyScopedRegistration, legacySingletonRegistration, legacyTransientRegistration))
             {
                 continue;
             }
 
             // Handle standard attributes
-            HandleStandardAttributesForServiceCollection(services, implementationType);
+            HandleStandardAttributes(builder, implementationType, scopedAttribute, singletonAttribute, transientAttribute);
         }
     }
 
     /// <summary>
-    /// Handles legacy registration attributes for service collection
+    /// Handles legacy registration attributes
     /// </summary>
-    private static bool HandleLegacyAttributesForServiceCollection(IServiceCollection services, Type implementationType,
+    private static bool HandleLegacyAttributes(ContainerBuilder builder, Type implementationType, 
         Type legacyScoped, Type legacySingleton, Type legacyTransient)
     {
         var interfaceType = implementationType.GetInterface($"I{implementationType.Name}");
@@ -140,19 +111,25 @@ public static class ServiceExtensions
 
         if (implementationType.IsDefined(legacyScoped, false))
         {
-            services.AddScoped(interfaceType, implementationType);
+            builder.RegisterType(implementationType)
+                .As(interfaceType)
+                .InstancePerLifetimeScope();
             return true;
         }
 
         if (implementationType.IsDefined(legacyTransient, false))
         {
-            services.AddTransient(interfaceType, implementationType);
+            builder.RegisterType(implementationType)
+                .As(interfaceType)
+                .InstancePerDependency();
             return true;
         }
 
         if (implementationType.IsDefined(legacySingleton, false))
         {
-            services.AddSingleton(interfaceType, implementationType);
+            builder.RegisterType(implementationType)
+                .As(interfaceType)
+                .SingleInstance();
             return true;
         }
 
@@ -160,15 +137,16 @@ public static class ServiceExtensions
     }
 
     /// <summary>
-    /// Handles standard registration attributes for service collection
+    /// Handles standard registration attributes with enhanced features
     /// </summary>
-    private static void HandleStandardAttributesForServiceCollection(IServiceCollection services, Type implementationType)
+    private static void HandleStandardAttributes(ContainerBuilder builder, Type implementationType,
+        Type scopedAttribute, Type singletonAttribute, Type transientAttribute)
     {
         // Check for Scoped attribute
         var scopedAttr = implementationType.GetCustomAttribute<ScopedAttribute>();
         if (scopedAttr != null)
         {
-            RegisterWithStandardAttributeForServiceCollection(services, implementationType, scopedAttr.ServiceType, scopedAttr.ServiceKey, scopedAttr.AllowSelfRegistration, ServiceLifetime.Scoped);
+            RegisterWithStandardAttribute(builder, implementationType, scopedAttr.ServiceType, scopedAttr.ServiceKey, scopedAttr.AllowSelfRegistration, ServiceLifetime.Scoped);
             return;
         }
 
@@ -176,7 +154,7 @@ public static class ServiceExtensions
         var transientAttr = implementationType.GetCustomAttribute<TransientAttribute>();
         if (transientAttr != null)
         {
-            RegisterWithStandardAttributeForServiceCollection(services, implementationType, transientAttr.ServiceType, transientAttr.ServiceKey, transientAttr.AllowSelfRegistration, ServiceLifetime.Transient);
+            RegisterWithStandardAttribute(builder, implementationType, transientAttr.ServiceType, transientAttr.ServiceKey, transientAttr.AllowSelfRegistration, ServiceLifetime.Transient);
             return;
         }
 
@@ -184,14 +162,14 @@ public static class ServiceExtensions
         var singletonAttr = implementationType.GetCustomAttribute<SingletonAttribute>();
         if (singletonAttr != null)
         {
-            RegisterWithStandardAttributeForServiceCollection(services, implementationType, singletonAttr.ServiceType, singletonAttr.ServiceKey, singletonAttr.AllowSelfRegistration, ServiceLifetime.Singleton);
+            RegisterWithStandardAttribute(builder, implementationType, singletonAttr.ServiceType, singletonAttr.ServiceKey, singletonAttr.AllowSelfRegistration, ServiceLifetime.Singleton);
         }
     }
 
     /// <summary>
-    /// Registers a service with standard attribute configuration for service collection
+    /// Registers a service with standard attribute configuration
     /// </summary>
-    private static void RegisterWithStandardAttributeForServiceCollection(IServiceCollection services, Type implementationType,
+    private static void RegisterWithStandardAttribute(ContainerBuilder builder, Type implementationType, 
         Type? serviceType, string? serviceKey, bool allowSelfRegistration, ServiceLifetime lifetime)
     {
         // Determine the service type
@@ -213,18 +191,27 @@ public static class ServiceExtensions
         // Skip registration if no valid service type found
         if (targetServiceType == null) return;
 
-        // Register with appropriate lifetime (note: service keys are not supported in basic service collection)
+        // Create the registration
+        var registration = builder.RegisterType(implementationType).As(targetServiceType);
+
+        // Apply lifetime scope
         switch (lifetime)
         {
             case ServiceLifetime.Scoped:
-                services.AddScoped(targetServiceType, implementationType);
+                registration.InstancePerLifetimeScope();
                 break;
             case ServiceLifetime.Transient:
-                services.AddTransient(targetServiceType, implementationType);
+                registration.InstancePerDependency();
                 break;
             case ServiceLifetime.Singleton:
-                services.AddSingleton(targetServiceType, implementationType);
+                registration.SingleInstance();
                 break;
+        }
+
+        // Apply service key if specified
+        if (!string.IsNullOrEmpty(serviceKey))
+        {
+            registration.Keyed(serviceKey, targetServiceType);
         }
     }
 }

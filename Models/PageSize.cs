@@ -3,7 +3,9 @@ namespace Idevs.Models;
 public enum PageSizes
 {
     A4,
-    A3
+    A3,
+    Letter,
+    Legal,
 }
 
 public enum PageOrientations
