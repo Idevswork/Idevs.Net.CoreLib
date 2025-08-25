@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using PuppeteerSharp;
 
 namespace Idevs;
@@ -22,6 +23,40 @@ public static class ChromeHelper
     {
         var browserPath = GetChromePath();
         return !string.IsNullOrEmpty(browserPath) && File.Exists(browserPath);
+    }
+
+    private static bool IsAppleSilicon()
+    {
+        if (!OperatingSystem.IsMacOS())
+            return false;
+
+        try
+        {
+            // Use sysctl to detect actual hardware architecture
+            var process = new System.Diagnostics.Process
+            {
+                StartInfo = new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = "sysctl",
+                    Arguments = "-n hw.optional.arm64",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = true
+                }
+            };
+
+            process.Start();
+            string output = process.StandardOutput.ReadToEnd().Trim();
+            process.WaitForExit();
+
+            return output == "1";
+        }
+        catch
+        {
+            // Fallback: check for common ARM64 indicators
+            return RuntimeInformation.OSArchitecture == Architecture.Arm64 ||
+                   Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE") == "ARM64";
+        }
     }
 
     public static string GetChromePath()
@@ -49,11 +84,26 @@ public static class ChromeHelper
             var directories = Directory.GetDirectories(basePath, "Mac*");
             if (directories.Length > 0)
             {
-                // Detect if we're on ARM64 (Apple Silicon) or x64 (Intel)
-                var isArm64 = System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture == System.Runtime.InteropServices.Architecture.Arm64;
-                var chromeFolder = isArm64 ? "chrome-mac-arm64" : "chrome-mac-x64";
+                var chromeFolder = IsAppleSilicon()
+                    ? "chrome-mac-arm64"
+                    : "chrome-mac-x64";
 
                 chromiumPath = Path.Combine(basePath, directories[0], chromeFolder, "Google Chrome for Testing.app", "Contents", "MacOS", "Google Chrome for Testing");
+
+                // Fallback: if the detected folder doesn't exist, try the other one
+                if (!File.Exists(chromiumPath))
+                {
+                    string alternateChromeFolder = IsAppleSilicon()
+                        ? "chrome-mac-x64"
+                        : "chrome-mac-arm64";
+
+                    string alternateChromePath = Path.Combine(basePath, directories[0], alternateChromeFolder, "Google Chrome for Testing.app", "Contents", "MacOS", "Google Chrome for Testing");
+
+                    if (File.Exists(alternateChromePath))
+                    {
+                        chromiumPath = alternateChromePath;
+                    }
+                }
             }
         }
         else if (OperatingSystem.IsLinux())
@@ -63,7 +113,7 @@ public static class ChromeHelper
             if (directories.Length > 0)
             {
                 // Detect if we're on ARM64 or x64
-                var isArm64 = System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture == System.Runtime.InteropServices.Architecture.Arm64;
+                var isArm64 = RuntimeInformation.ProcessArchitecture == Architecture.Arm64;
                 var chromeFolder = isArm64 ? "chrome-linux-arm64" : "chrome-linux64";
 
                 chromiumPath = Path.Combine(basePath, directories[0], chromeFolder, "chrome");

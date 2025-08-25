@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.3 (2025-08-26)
+
+### Improved
+
+- **ChromeHelper Apple Silicon Detection**: Enhanced Apple Silicon (ARM64) detection with more reliable fallback mechanisms
+    - Added native system call detection using `sysctl hw.optional.arm64`
+    - Improved fallback detection using `RuntimeInformation.OSArchitecture` and environment variables
+    - Better compatibility across different macOS versions and execution contexts
+
 ## 0.2.2 (2025-08-26)
 
 ### Added
