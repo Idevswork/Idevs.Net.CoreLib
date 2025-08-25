@@ -49,7 +49,24 @@ public static class ChromeHelper
             var directories = Directory.GetDirectories(basePath, "Mac*");
             if (directories.Length > 0)
             {
-                chromiumPath = Path.Combine(basePath, directories[0], "chrome-mac-x64", "Google Chrome for Testing.app", "Contents", "MacOS", "Google Chrome for Testing");
+                // Detect if we're on ARM64 (Apple Silicon) or x64 (Intel)
+                var isArm64 = System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture == System.Runtime.InteropServices.Architecture.Arm64;
+                var chromeFolder = isArm64 ? "chrome-mac-arm64" : "chrome-mac-x64";
+
+                chromiumPath = Path.Combine(basePath, directories[0], chromeFolder, "Google Chrome for Testing.app", "Contents", "MacOS", "Google Chrome for Testing");
+            }
+        }
+        else if (OperatingSystem.IsLinux())
+        {
+            basePath = Path.Combine(basePath, "Chrome");
+            var directories = Directory.GetDirectories(basePath, "Linux*");
+            if (directories.Length > 0)
+            {
+                // Detect if we're on ARM64 or x64
+                var isArm64 = System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture == System.Runtime.InteropServices.Architecture.Arm64;
+                var chromeFolder = isArm64 ? "chrome-linux-arm64" : "chrome-linux64";
+
+                chromiumPath = Path.Combine(basePath, directories[0], chromeFolder, "chrome");
             }
         }
 

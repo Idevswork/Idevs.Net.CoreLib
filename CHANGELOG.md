@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.2.2 (2025-08-26)
+
+### Added
+
+- **ChromeHelper ARM64 Support**: Added support for ARM64 architecture on macOS (Apple Silicon)
+- **ChromeHelper Linux Support**: Added support for Linux operating system with both x64 and ARM64 architectures
+- Enhanced architecture detection using `RuntimeInformation.ProcessArchitecture` for proper Chrome binary selection
+
+### Changed
+
+- **ChromeHelper.GetChromePath()**: Updated to detect system architecture and select appropriate Chrome binary paths:
+  - macOS: `chrome-mac-arm64` for Apple Silicon, `chrome-mac-x64` for Intel
+  - Linux: `chrome-linux-arm64` for ARM64, `chrome-linux64` for x64
+  - Windows: Continues to use `chrome-win64` (compatible with ARM64 through emulation)
+
+## 0.2.1 (2025-08-20)
+
 ## 0.2.0 (2025-08-16)
 
 ### Breaking Changes
