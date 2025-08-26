@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.4 (2025-08-27)
+
+### Improved
+
+- **IdevsPdfExporter Performance**: Enhanced PDF generation with improved browser lifecycle management
+    - Optimized Puppeteer browser instance handling with proper async disposal
+    - Added network idle state waiting for better content rendering reliability
+    - Improved PDF options configuration for better CSS page size handling
+
 ## 0.2.3 (2025-08-26)
 
 ### Improved

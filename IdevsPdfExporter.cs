@@ -1,4 +1,6 @@
+using System.Globalization;
 using Ardalis.GuardClauses;
+using Idevs.Models;
 using PuppeteerSharp;
 
 namespace Idevs;
@@ -26,6 +28,17 @@ public interface IIdevsPdfExporter
     /// <param name="footerTemplate">HTML template for page footer</param>
     /// <returns>Task containing PDF file as byte array</returns>
     Task<byte[]> ExportAsync(string html, string headerTemplate = "<p></p>", string footerTemplate = "<p></p>");
+
+    /// <summary>
+    /// Creates a response containing the PDF file for download
+    /// </summary>
+    /// <param name="html"></param>
+    /// <param name="headerTemplate"></param>
+    /// <param name="footerTemplate"></param>
+    /// <param name="downloadName"></param>
+    /// <returns></returns>
+    Task<IdevsContentResponse> CreateResponseAsync(string html, string headerTemplate = "<p></p>",
+        string footerTemplate = "<p></p>", string? downloadName = null);
 }
 
 /// <summary>
@@ -44,6 +57,19 @@ public class IdevsPdfExporter : IIdevsPdfExporter
         Guard.Against.Null(footerTemplate, nameof(footerTemplate));
         
         return await DoGeneratePdf(html, headerTemplate, footerTemplate);
+    }
+
+    public async Task<IdevsContentResponse> CreateResponseAsync(string html, string headerTemplate = "<p></p>", string footerTemplate = "<p></p>",
+        string? downloadName = null)
+    {
+        var bytes = await ExportAsync(html, headerTemplate, footerTemplate);
+        return new IdevsContentResponse
+        {
+            Content = Convert.ToBase64String(bytes),
+            ContentType = "application/pdf",
+            DownloadName = downloadName ??
+                           "report" + DateTime.Now.ToString("yyyyMMddHHmmss", CultureInfo.InvariantCulture) + ".pdf"
+        };
     }
 
     private static async Task<byte[]> DoGeneratePdf(
