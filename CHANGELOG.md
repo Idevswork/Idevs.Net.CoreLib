@@ -1,5 +1,47 @@
 # Changelog
 
+## 0.2.5 (2025-08-28)
+
+### Added
+
+- **IdevsPdfExporter Template Support**: Added Handlebars.NET integration for template-based PDF generation
+    - New `CompileTemplateAsync<TModel>()` method for template compilation with data models
+    - New `CreateResponseAsync<TModel>()` method for template-based response generation
+    - Template caching with `ConcurrentDictionary` for improved performance
+    - Support for custom Handlebars helpers registration via `RegisterCustomHelpers()`
+
+### Enhanced
+
+- **Comprehensive Handlebars Helpers**: Added rich formatting helpers for PDF templates
+    - `formatNumber`: Number formatting with culture and precision support
+    - `formatCurrency`: Currency formatting with custom symbols and culture support  
+    - `formatDate`: Date formatting with pattern and culture support
+    - `formatDateTime`: DateTime formatting with pattern and culture support
+    - `conditionalClass`: CSS class conditional logic for styling
+    - `eq`: Equality comparison helper for template conditions
+
+### Improved
+
+- **Enhanced Error Handling**: Comprehensive null safety and validation improvements
+    - Added Guard clauses for all public methods using Ardalis.GuardClauses
+    - Enhanced template file validation with existence and content checks
+    - Improved browser instance validation and error reporting
+    - Added CultureNotFoundException handling in all formatting helpers
+    - Better null handling in date parsing and string operations
+
+- **PDF Generation Robustness**: Enhanced browser management and PDF creation reliability
+    - Added browser cleanup timer infrastructure for resource management
+    - Improved PDF options with better header/footer handling
+    - Enhanced browser launch options for better compatibility
+    - Added comprehensive validation for PDF generation results
+
+### Changed
+
+- **Method Signatures**: Updated method names for better clarity and consistency
+    - Renamed `Export()` to `ExportByteArray()` for clearer intent
+    - Renamed `ExportAsync()` to `ExportByteArrayAsync()` for consistency
+    - Enhanced all methods with proper CancellationToken support
+
 ## 0.2.4 (2025-08-27)
 
 ### Improved

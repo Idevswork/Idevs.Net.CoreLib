@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageId>Idevs.Net.CoreLib</PackageId>
-    <Version>0.2.4</Version>
+    <Version>0.2.5</Version>
     <Authors>Sarawut Phaekuntod</Authors>
     <Product>Idevs.Net.CoreLib</Product>
     <PackageTags>Idevs; CoreLib; Serenity; Extended</PackageTags>
@@ -35,6 +35,7 @@
     <PackageReference Include="ClosedXML" Version="0.105.0" />
     <PackageReference Include="FastMember" Version="1.5.0" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.2" />
+    <PackageReference Include="Handlebars.Net" Version="2.1.6" />
     <PackageReference Include="PuppeteerSharp" Version="20.2.2" />
     <PackageReference Include="Ardalis.GuardClauses" Version="5.0.0" />
     <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.8.3">
