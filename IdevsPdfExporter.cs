@@ -87,12 +87,8 @@ public class IdevsPdfExporter : IIdevsPdfExporter
     // Optional per-scope template cache (ok)
     private readonly ConcurrentDictionary<string, HandlebarsTemplate<object, object>> _compiledTemplates = new();
 
-    private static readonly SemaphoreSlim BrowserLock = new(1,1);
     private readonly IHandlebars _handlebars;
-    private static IBrowser? _browser;
     private readonly CultureInfo _defaultCulture;
-    private static readonly Timer? _browserCleanupTimer;
-    private static DateTime _lastBrowserUse = DateTime.UtcNow;
 
     public IdevsPdfExporter(CultureInfo? defaultCulture = null)
     {
@@ -139,7 +135,24 @@ public class IdevsPdfExporter : IIdevsPdfExporter
     {
         Guard.Against.NullOrEmpty(html, nameof(html));
 
-        await using var browser = await InitializeBrowserAsync(cancellationToken);
+        // Use per-request browser instance for better reliability
+        var chromePath = ChromeHelper.GetChromePath();
+        var launchOption = new LaunchOptions
+        {
+            Headless = true,
+            IgnoredDefaultArgs = ["--disable-extensions"],
+            Args =
+            [
+                "--no-sandbox",
+                "--disable-setuid-sandbox",
+                "--disable-dev-shm-usage",
+                "--disable-web-security",
+                "--allow-running-insecure-content"
+            ],
+            ExecutablePath = chromePath
+        };
+
+        await using var browser = await Puppeteer.LaunchAsync(launchOption);
         if (browser == null)
         {
             throw new InvalidOperationException("Failed to initialize browser instance");
@@ -170,35 +183,6 @@ public class IdevsPdfExporter : IIdevsPdfExporter
         return pdfData;
     }
 
-    private static async Task<IBrowser> InitializeBrowserAsync(CancellationToken cancellationToken = default)
-    {
-        var chromePath = ChromeHelper.GetChromePath();
-        var launchOption = new LaunchOptions
-        {
-            Headless = true,
-            IgnoredDefaultArgs = ["--disable-extensions"],
-            Args =
-            [
-                "--no-sandbox",
-                "--disable-setuid-sandbox",
-                "--disable-dev-shm-usage",
-                "--disable-web-security",
-                "--allow-running-insecure-content"
-            ],
-            ExecutablePath = chromePath
-        };
-
-        await BrowserLock.WaitAsync(cancellationToken);
-        try
-        {
-            _browser ??= await Puppeteer.LaunchAsync(launchOption);
-            return _browser;
-        }
-        finally
-        {
-            BrowserLock.Release();
-        }
-    }
 
     private void RegisterHelpers()
     {
@@ -477,12 +461,20 @@ public class IdevsPdfExporter : IIdevsPdfExporter
             throw new InvalidOperationException("PDF generation resulted in empty content");
         }
 
-        return new IdevsContentResponse
+        try
         {
-            Content = Convert.ToBase64String(bytes),
-            ContentType = "application/pdf",
-            DownloadName = downloadName ??
-                           "report" + DateTime.Now.ToString("yyyyMMddHHmmss", CultureInfo.InvariantCulture) + ".pdf"
-        };
+            var base64Content = Convert.ToBase64String(bytes);
+            return new IdevsContentResponse
+            {
+                Content = base64Content,
+                ContentType = "application/pdf",
+                DownloadName = downloadName ??
+                               "report" + DateTime.Now.ToString("yyyyMMddHHmmss", CultureInfo.InvariantCulture) + ".pdf"
+            };
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException($"Failed to convert PDF content to Base64: {ex.Message}", ex);
+        }
     }
 }

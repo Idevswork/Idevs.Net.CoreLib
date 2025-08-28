@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.2.6 (2025-08-28)
+
+### Fixed
+
+- **Critical Browser Connection Fix**: Resolved `PuppeteerSharp.TargetClosedException` when generating multiple PDF reports
+    - Changed from static browser instance to per-request browser instances for better reliability
+    - Fixed "Target closed" error that occurred on subsequent PDF generations
+    - Removed shared browser connection that was causing WebSocket connection issues
+    - Improved browser lifecycle management to prevent connection state conflicts
+- **Compilation Errors**: Fixed compilation errors related to unused browser management code
+    - Removed obsolete `InitializeBrowserAsync` method that referenced removed static fields
+    - Cleaned up references to `BrowserLock`, `_browser`, and `_lastBrowserUse` variables
+    - Resolved build errors after switching to per-request browser architecture
+
+### Improved
+
+- **PDF Generation Reliability**: Enhanced error handling and resource management
+    - Each PDF generation now uses a fresh browser instance
+    - Eliminated race conditions from shared browser connections
+    - Better resource disposal with proper async using patterns
+- **Base64 Conversion Safety**: Added comprehensive error handling for PDF content conversion
+    - Enhanced error reporting for Base64 conversion failures
+    - Better exception context for debugging PDF generation issues
+
 ## 0.2.5 (2025-08-28)
 
 ### Added
